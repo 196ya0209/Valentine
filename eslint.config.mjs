@@ -13,6 +13,13 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // Allow Math.random in useMemo for 3D/animation initialization
+      // This is a common pattern in React Three Fiber
+      "react-hooks/purity": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

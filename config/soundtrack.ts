@@ -1,4 +1,7 @@
 // config/soundtrack.ts
+// =====================================================
+// IMPORTANT: Replace with your actual song details!
+// =====================================================
 export const ourSoundtrack = {
   title: "The Soundtrack of Us",
   

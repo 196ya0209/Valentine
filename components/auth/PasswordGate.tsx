@@ -29,6 +29,8 @@ export default function PasswordGate() {
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   useEffect(() => {
+    // This is intentional - we need to know when we're on client side
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
     // Generate hearts on client side only
     const generatedHearts: FloatingHeart[] = []

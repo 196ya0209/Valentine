@@ -1,11 +1,16 @@
 // config/siteConfig.ts
+// =====================================================
+// IMPORTANT: Customize these values before deploying!
+// Replace all placeholder values with your actual data.
+// =====================================================
 export const siteConfig = {
   herName: "Amritha",
   particleName: "Amritha",
-  yourName: "[YOUR_NAME]", // Replace with your name
+  yourName: "[YOUR_NAME]", // TODO: Replace with your name
   
   // Password settings - NO HINT
-  password: "[YOUR_SECRET_CODE]", // Replace with your password
+  // TODO: Replace with your secret password
+  password: "[YOUR_SECRET_CODE]",
   showHint: false,
   hint: null,
   

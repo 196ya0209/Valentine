@@ -1,4 +1,7 @@
 // config/finalMessage.ts
+// =====================================================
+// IMPORTANT: Replace [YOUR_NAME] with your actual name!
+// =====================================================
 export const finalMessage = {
   title: "Happy Valentine's Day",
   name: "AMRITHA",

@@ -5,7 +5,6 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { X } from 'lucide-react'
 import { photoGallery } from '@/config/photos'
-import Image from 'next/image'
 
 export default function PhotoGallery() {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null)

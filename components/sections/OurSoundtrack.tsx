@@ -69,7 +69,7 @@ export default function OurSoundtrack() {
                   {ourSoundtrack.ourSong.title}
                 </h3>
                 <p className="text-white/60 mb-4">by {ourSoundtrack.ourSong.artist}</p>
-                <p className="text-[#FFB4C2] italic mb-4">"{ourSoundtrack.ourSong.favoriteLyric}"</p>
+                <p className="text-[#FFB4C2] italic mb-4">&ldquo;{ourSoundtrack.ourSong.favoriteLyric}&rdquo;</p>
                 <p className="text-white/80 text-sm">{ourSoundtrack.ourSong.reason}</p>
               </div>
             </div>

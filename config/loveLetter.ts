@@ -1,4 +1,7 @@
 // config/loveLetter.ts
+// =====================================================
+// IMPORTANT: Customize the signature with your name!
+// =====================================================
 export const loveLetterToAmritha = {
   greeting: "My Dearest Mookie,",
   
