@@ -40,19 +40,20 @@ export default function SunsetEnding() {
         return clearInterval(interval)
       }
 
-      const particleCount = 40 * (timeLeft / duration)
+      const particleCount = 50 * (timeLeft / duration)
       
+      // Warm orange confetti
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        colors: ['#FB923C', '#F59E0B', '#FBBF24', '#FFFFFF']
+        colors: ['#E85D04', '#D4622C', '#FF9B85', '#FFD6BA', '#FFFBF5']
       })
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        colors: ['#FB923C', '#F59E0B', '#FBBF24', '#FFFFFF']
+        colors: ['#E85D04', '#D4622C', '#FF9B85', '#FFD6BA', '#FFFBF5']
       })
     }, 250)
   }
@@ -62,21 +63,20 @@ export default function SunsetEnding() {
       ref={ref}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Modern sunset gradient background */}
+      {/* Warm radiant sunset gradient background */}
       <div 
         className="absolute inset-0"
         style={{
           background: `linear-gradient(
             180deg,
-            #0C0A09 0%,
-            #1C1917 15%,
-            #78350F 35%,
-            #B45309 50%,
-            #D97706 60%,
-            #F59E0B 70%,
-            #FBBF24 80%,
-            #FDE68A 90%,
-            #FEF3C7 100%
+            #FFE5D9 0%,
+            #FFD6BA 15%,
+            #FF9B85 30%,
+            #E85D04 50%,
+            #D4622C 60%,
+            #C1440E 70%,
+            #8B3A0E 85%,
+            #4A1D08 100%
           )`
         }}
       />
@@ -85,27 +85,27 @@ export default function SunsetEnding() {
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 rounded-full"
         style={{
-          width: '250px',
-          height: '250px',
-          background: 'radial-gradient(circle, #FEF3C7 0%, #FBBF24 30%, #F59E0B 60%, #EA580C 100%)',
+          width: '280px',
+          height: '280px',
+          background: 'radial-gradient(circle, #FFFBF5 0%, #FFD6BA 30%, #FF9B85 60%, #E85D04 100%)',
           bottom: '15%',
-          filter: 'blur(2px)'
+          filter: 'blur(3px)'
         }}
         initial={{ opacity: 0, y: 100 }}
-        animate={isInView ? { opacity: 0.9, y: 0 } : {}}
+        animate={isInView ? { opacity: 0.95, y: 0 } : {}}
         transition={{ duration: 2, ease: "easeOut" }}
       >
         {/* Sun glow */}
         <motion.div
           className="absolute inset-0 rounded-full"
           style={{
-            boxShadow: '0 0 100px 60px rgba(251, 191, 36, 0.3), 0 0 200px 100px rgba(245, 158, 11, 0.2)'
+            boxShadow: '0 0 100px 60px rgba(232, 93, 4, 0.4), 0 0 200px 100px rgba(255, 155, 133, 0.3)'
           }}
           animate={{
             boxShadow: [
-              '0 0 100px 60px rgba(251, 191, 36, 0.3), 0 0 200px 100px rgba(245, 158, 11, 0.2)',
-              '0 0 120px 80px rgba(251, 191, 36, 0.4), 0 0 220px 120px rgba(245, 158, 11, 0.25)',
-              '0 0 100px 60px rgba(251, 191, 36, 0.3), 0 0 200px 100px rgba(245, 158, 11, 0.2)'
+              '0 0 100px 60px rgba(232, 93, 4, 0.4), 0 0 200px 100px rgba(255, 155, 133, 0.3)',
+              '0 0 120px 80px rgba(232, 93, 4, 0.5), 0 0 220px 120px rgba(255, 155, 133, 0.35)',
+              '0 0 100px 60px rgba(232, 93, 4, 0.4), 0 0 200px 100px rgba(255, 155, 133, 0.3)'
             ]
           }}
           transition={{ duration: 4, repeat: Infinity }}
@@ -114,8 +114,11 @@ export default function SunsetEnding() {
 
       {/* Horizon line */}
       <div 
-        className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        style={{ bottom: '25%' }}
+        className="absolute left-0 right-0 h-[2px]"
+        style={{ 
+          bottom: '25%',
+          background: 'linear-gradient(90deg, transparent, rgba(255,214,186,0.5), transparent)'
+        }}
       />
 
       {/* Water reflection */}
@@ -123,10 +126,10 @@ export default function SunsetEnding() {
         className="absolute left-0 right-0 bottom-0"
         style={{
           height: '25%',
-          background: 'linear-gradient(180deg, rgba(251, 191, 36, 0.2) 0%, rgba(234, 88, 12, 0.1) 50%, transparent 100%)'
+          background: 'linear-gradient(180deg, rgba(232, 93, 4, 0.3) 0%, rgba(193, 68, 14, 0.2) 50%, rgba(74, 29, 8, 0.6) 100%)'
         }}
         animate={{
-          opacity: [0.6, 0.8, 0.6]
+          opacity: [0.7, 0.9, 0.7]
         }}
         transition={{ duration: 3, repeat: Infinity }}
       />
@@ -139,12 +142,14 @@ export default function SunsetEnding() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-center"
         >
-          {/* Question */}
+          {/* Question - Playfair Display */}
           <motion.h2
-            className="text-4xl md:text-6xl lg:text-7xl text-white mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl mb-6 font-bold"
             style={{ 
-              fontFamily: "'Great Vibes', cursive",
-              textShadow: '0 4px 30px rgba(0,0,0,0.5)'
+              fontFamily: "'Playfair Display', serif",
+              color: '#FFFBF5',
+              textShadow: '0 4px 30px rgba(74, 29, 8, 0.5)',
+              letterSpacing: '-2px'
             }}
             animate={{ scale: answered ? [1, 1.05, 1] : 1 }}
           >
@@ -153,7 +158,11 @@ export default function SunsetEnding() {
 
           {!answered && (
             <motion.p
-              className="text-lg md:text-xl text-white/80 mb-12 max-w-md mx-auto"
+              className="text-lg md:text-xl mb-12 max-w-md mx-auto"
+              style={{ 
+                fontFamily: "'Outfit', sans-serif",
+                color: 'rgba(255, 251, 245, 0.85)'
+              }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
@@ -170,20 +179,27 @@ export default function SunsetEnding() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5 }}
             >
-              {/* Yes Button */}
+              {/* Yes Button - Pill shaped */}
               <motion.button
                 onClick={handleYesClick}
-                className="group relative px-10 py-4 text-lg font-medium rounded-full bg-white text-[#EA580C] shadow-2xl overflow-hidden"
-                whileHover={{ scale: 1.05, boxShadow: '0 20px 60px rgba(255, 255, 255, 0.3)' }}
+                className="group relative px-12 py-5 text-lg font-semibold rounded-full overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, #FFFBF5, #FFE5D9)',
+                  color: '#E85D04',
+                  boxShadow: '0 8px 32px rgba(74, 29, 8, 0.4)',
+                  fontFamily: "'Outfit', sans-serif"
+                }}
+                whileHover={{ scale: 1.05, boxShadow: '0 12px 48px rgba(255, 251, 245, 0.4)' }}
                 whileTap={{ scale: 0.98 }}
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#FB923C] to-[#F59E0B]"
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(135deg, #E85D04, #FF9B85)' }}
                   initial={{ x: '-100%' }}
                   whileHover={{ x: 0 }}
                   transition={{ duration: 0.3 }}
                 />
-                <span className="relative flex items-center gap-2 group-hover:text-white transition-colors">
+                <span className="relative flex items-center gap-2 group-hover:text-[#FFFBF5] transition-colors">
                   <Heart className="w-5 h-5 group-hover:fill-current" />
                   Yes, Forever
                 </span>
@@ -191,7 +207,14 @@ export default function SunsetEnding() {
 
               {/* No Button - Runs away */}
               <motion.button
-                className="px-10 py-4 text-lg font-medium rounded-full bg-black/20 backdrop-blur-sm text-white/60 border border-white/20"
+                className="px-10 py-4 text-lg font-medium rounded-full"
+                style={{
+                  background: 'rgba(74, 29, 8, 0.4)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'rgba(255, 251, 245, 0.6)',
+                  border: '2px solid rgba(255, 251, 245, 0.2)',
+                  fontFamily: "'Outfit', sans-serif"
+                }}
                 animate={{ x: noButtonPosition.x, y: noButtonPosition.y }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 onMouseEnter={runAwayButton}
@@ -208,23 +231,26 @@ export default function SunsetEnding() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
               className="text-center"
             >
               <motion.p
-                className="text-2xl md:text-3xl text-white mb-8 max-w-lg mx-auto"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-2xl md:text-3xl mb-8 max-w-lg mx-auto"
+                style={{ 
+                  fontFamily: "'Pacifico', cursive",
+                  color: '#FFFBF5'
+                }}
               >
                 You just made me the happiest person alive
               </motion.p>
               
-              <div className="flex justify-center gap-3">
+              <div className="flex justify-center gap-4">
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
                     animate={{
                       y: [0, -15, 0],
-                      rotate: [0, 5, -5, 0],
+                      rotate: [-5, 5, -5],
                     }}
                     transition={{
                       duration: 2,
@@ -232,10 +258,19 @@ export default function SunsetEnding() {
                       repeat: Infinity,
                     }}
                   >
-                    <Heart className="w-8 h-8 text-white fill-white" />
+                    <Heart className="w-8 h-8 text-[#FFFBF5]" fill="currentColor" />
                   </motion.div>
                 ))}
               </div>
+              
+              <motion.div
+                className="mt-6 flex justify-center gap-2"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Sparkles className="w-6 h-6 text-[#FFD6BA]" />
+                <Sparkles className="w-6 h-6 text-[#FFD6BA]" />
+              </motion.div>
             </motion.div>
           )}
         </motion.div>
@@ -248,7 +283,7 @@ export default function SunsetEnding() {
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ delay: 2 }}
       >
-        <svg width="120" height="80" viewBox="0 0 120 80" fill="black">
+        <svg width="120" height="80" viewBox="0 0 120 80" fill="#4A1D08">
           {/* Two people silhouette */}
           <ellipse cx="40" cy="20" rx="10" ry="12" />
           <ellipse cx="80" cy="18" rx="9" ry="11" />
@@ -279,9 +314,9 @@ export default function SunsetEnding() {
               }}
             >
               <Heart 
-                className="text-white" 
+                className="text-[#FFFBF5]" 
                 size={16 + Math.random() * 16}
-                fill="white"
+                fill="currentColor"
               />
             </motion.div>
           ))}

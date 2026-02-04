@@ -26,7 +26,7 @@ export default function ReasonsILoveYou() {
   return (
     <section 
       ref={ref}
-      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden"
+      className="relative py-32 md:py-40 bg-[#FFE5D9] overflow-hidden"
     >
       {/* Background */}
       <div className="aurora-bg opacity-20" />
@@ -39,15 +39,15 @@ export default function ReasonsILoveYou() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+          <motion.p className="text-[#8C7A6B] text-sm tracking-[0.3em] uppercase mb-4">
             Let Me Count The Ways
           </motion.p>
           
           <h2
             className="text-5xl md:text-7xl mb-4"
             style={{ 
-              fontFamily: "'Great Vibes', cursive",
-              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              fontFamily: "'Playfair Display', serif",
+              background: 'linear-gradient(135deg, #E85D04 0%, #D4622C 50%, #FF9B85 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}
@@ -55,7 +55,7 @@ export default function ReasonsILoveYou() {
             Reasons I Love You
           </h2>
           
-          <p className="text-[#A8A29E] text-base flex items-center justify-center gap-2">
+          <p className="text-[#8C7A6B] text-base flex items-center justify-center gap-2">
             <RotateCcw className="w-4 h-4" />
             Tap each card to reveal
           </p>
@@ -83,16 +83,16 @@ export default function ReasonsILoveYou() {
               >
                 {/* Front of card */}
                 <div 
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/10 border border-[#FB923C]/20 backdrop-blur-xl flex flex-col items-center justify-center p-4 backface-hidden"
+                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#E85D04]/20 to-[#D4622C]/10 border border-[#E85D04]/20 backdrop-blur-xl flex flex-col items-center justify-center p-4 backface-hidden"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] flex items-center justify-center mb-4">
-                    <Heart className="w-6 h-6 text-white fill-white" />
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#E85D04] to-[#D4622C] flex items-center justify-center mb-4">
+                    <Heart className="w-6 h-6 text-[#3A3229] fill-white" />
                   </div>
-                  <span className="text-white font-medium text-center text-sm md:text-base">
+                  <span className="text-[#3A3229] font-medium text-center text-sm md:text-base">
                     {item.petName}
                   </span>
-                  <span className="text-[#78716C] text-xs mt-3 flex items-center gap-1">
+                  <span className="text-[#8C7A6B] text-xs mt-3 flex items-center gap-1">
                     <RotateCcw className="w-3 h-3" />
                     Tap
                   </span>

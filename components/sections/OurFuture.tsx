@@ -12,7 +12,7 @@ export default function OurFuture() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#0A0A1A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#FFE5D9] via-[#0A0A1A] to-[#FFF8F0] overflow-hidden"
     >
       {/* Horizon gradient */}
       <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#FF69B4]/10 to-transparent" />
@@ -49,11 +49,11 @@ export default function OurFuture() {
         >
           <h2
             className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {futureWithAmritha.title}
           </h2>
-          <p className="text-white/60 text-lg">
+          <p className="text-[#3A3229]/60 text-lg">
             {futureWithAmritha.subtitle}
           </p>
         </motion.div>
@@ -82,8 +82,8 @@ export default function OurFuture() {
                   whileHover={{ scale: 1.02, borderColor: 'rgba(255, 105, 180, 0.5)' }}
                 >
                   <span className="text-4xl mb-4 block">{dream.emoji}</span>
-                  <h3 className="text-xl text-white font-semibold mb-2">{dream.title}</h3>
-                  <p className="text-white/70 mb-3">{dream.description}</p>
+                  <h3 className="text-xl text-[#3A3229] font-semibold mb-2">{dream.title}</h3>
+                  <p className="text-[#3A3229]/70 mb-3">{dream.description}</p>
                   <span className="text-[#FFB4C2] text-sm">{dream.timeline}</span>
                 </motion.div>
               </motion.div>
@@ -98,7 +98,7 @@ export default function OurFuture() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="max-w-2xl mx-auto"
         >
-          <h3 className="text-3xl text-[#FFB4C2] text-center mb-8" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <h3 className="text-3xl text-[#FFB4C2] text-center mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
             Our Bucket List
           </h3>
           <div className="space-y-3">
@@ -113,7 +113,7 @@ export default function OurFuture() {
                 <div className="w-5 h-5 rounded border-2 border-[#FFB4C2] flex items-center justify-center">
                   <span className="text-[#FFB4C2] text-xs">○</span>
                 </div>
-                <span className="text-white/80">{item}</span>
+                <span className="text-[#3A3229]/80">{item}</span>
               </motion.div>
             ))}
           </div>

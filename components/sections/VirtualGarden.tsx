@@ -21,7 +21,7 @@ export default function VirtualGarden() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#0A1A0A] to-[#1A0A0A] overflow-hidden min-h-screen"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#FFE5D9] via-[#0A1A0A] to-[#FFF8F0] overflow-hidden min-h-screen"
     >
       {/* Grass gradient */}
       <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1A3A1A]/50 to-transparent" />
@@ -36,11 +36,11 @@ export default function VirtualGarden() {
         >
           <h2
             className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {virtualGarden.title}
           </h2>
-          <p className="text-white/60 text-lg">
+          <p className="text-[#3A3229]/60 text-lg">
             {virtualGarden.subtitle}
           </p>
         </motion.div>
@@ -150,7 +150,7 @@ export default function VirtualGarden() {
                 
                 {/* Label */}
                 <motion.p
-                  className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-xs whitespace-nowrap"
+                  className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[#3A3229]/60 text-xs whitespace-nowrap"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5 + index * 0.2 }}
@@ -201,13 +201,13 @@ export default function VirtualGarden() {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              className="bg-gradient-to-br from-[#2D0A0A] to-[#1A0A0A] p-8 rounded-2xl max-w-md w-full border border-[#FFB4C2]/30 text-center"
+              className="bg-gradient-to-br from-[#2D0A0A] to-[#FFF8F0] p-8 rounded-2xl max-w-md w-full border border-[#FFB4C2]/30 text-center"
               onClick={(e) => e.stopPropagation()}
             >
               <span className="text-7xl mb-4 block">
                 {flowerEmojis[virtualGarden.flowers[selectedFlower].type]}
               </span>
-              <h3 className="text-2xl text-white mb-2" style={{ fontFamily: "'Great Vibes', cursive" }}>
+              <h3 className="text-2xl text-[#3A3229] mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {virtualGarden.flowers[selectedFlower].occasion}
               </h3>
               <p className="text-[#FFB4C2]">

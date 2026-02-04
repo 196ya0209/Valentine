@@ -3,7 +3,7 @@
 
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
-import { Heart } from 'lucide-react'
+import { Heart, Sparkles } from 'lucide-react'
 
 interface FloatingModel {
   id: number
@@ -12,23 +12,23 @@ interface FloatingModel {
   size: number
   duration: number
   delay: number
-  type: 'heart' | 'dot'
+  type: 'heart' | 'sparkle' | 'dot'
 }
 
 export default function FloatingModels() {
   const models = useMemo(() => {
     const floatingModels: FloatingModel[] = []
     
-    // Add minimal, elegant floating elements - mostly subtle hearts and dots
-    for (let i = 0; i < 15; i++) {
+    // Elegant floating elements - warm orange themed
+    for (let i = 0; i < 18; i++) {
       floatingModels.push({
         id: i,
         x: 5 + Math.random() * 90,
         y: Math.random() * 100,
-        size: 12 + Math.random() * 12,
-        duration: 20 + Math.random() * 15,
-        delay: Math.random() * 10,
-        type: i % 3 === 0 ? 'heart' : 'dot',
+        size: 14 + Math.random() * 14,
+        duration: 18 + Math.random() * 12,
+        delay: Math.random() * 8,
+        type: i % 4 === 0 ? 'heart' : i % 4 === 1 ? 'sparkle' : 'dot',
       })
     }
     return floatingModels
@@ -45,9 +45,10 @@ export default function FloatingModels() {
             top: `${model.y}%`,
           }}
           animate={{
-            y: [0, -60, 0],
-            x: [0, Math.sin(model.id) * 20, 0],
-            opacity: [0.15, 0.35, 0.15],
+            y: [0, -50, 0],
+            x: [0, Math.sin(model.id) * 15, 0],
+            opacity: [0.2, 0.5, 0.2],
+            rotate: model.type === 'heart' ? [-5, 5, -5] : [0, 0, 0],
           }}
           transition={{
             duration: model.duration,
@@ -59,17 +60,23 @@ export default function FloatingModels() {
           {model.type === 'heart' ? (
             <Heart 
               size={model.size} 
-              className="text-[#EA580C]" 
-              strokeWidth={1}
-              fill="rgba(234, 88, 12, 0.2)"
+              className="text-[#E85D04]" 
+              strokeWidth={1.5}
+              fill="rgba(232, 93, 4, 0.25)"
+            />
+          ) : model.type === 'sparkle' ? (
+            <Sparkles
+              size={model.size * 0.8}
+              className="text-[#D4622C]"
+              strokeWidth={1.5}
             />
           ) : (
             <div 
               className="rounded-full"
               style={{ 
-                width: model.size / 3, 
-                height: model.size / 3,
-                background: 'radial-gradient(circle, rgba(251,146,60,0.6) 0%, rgba(234,88,12,0.3) 100%)',
+                width: model.size / 2.5, 
+                height: model.size / 2.5,
+                background: 'radial-gradient(circle, rgba(232,93,4,0.5) 0%, rgba(255,155,133,0.3) 100%)',
               }}
             />
           )}

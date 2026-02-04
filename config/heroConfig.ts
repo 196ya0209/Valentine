@@ -17,11 +17,11 @@ export const heroConfig = {
     "Hot"
   ],
   
-  // CRITICAL: Big, Bold, Romantic Cursive Font
+  // CRITICAL: Big, Bold, Playfair Display Font
   font: {
-    family: "'Great Vibes', cursive",
+    family: "'Playfair Display', serif",
     size: 180, // Large
-    weight: 400,
+    weight: 700,
     responsive: {
       mobile: 80,
       tablet: 120,
@@ -29,18 +29,18 @@ export const heroConfig = {
     }
   },
   
-  // Particle text settings - now with orange theme
+  // Particle text settings - warm orange radiant theme
   particles: {
     count: 8000,
     color: {
-      primary: "#FFAB91",
-      glow: "#FF6B35",
-      core: "#FFFFFF"
+      primary: "#FFD6BA",    // Apricot Blush
+      glow: "#E85D04",       // Burnt Orange
+      core: "#FFFBF5"        // Ivory
     },
     glow: {
       enabled: true,
-      intensity: 2,
-      color: "#FF6B35"
+      intensity: 2.2,
+      color: "#E85D04"
     },
     float: {
       enabled: true,
@@ -56,7 +56,7 @@ export const heroConfig = {
     overflow: "visible"
   },
   
-  subtitle: "For My Mookie 🧸",
+  subtitle: "For My Mookie",
   occasion: "Happy Valentine's Day 2026",
   tagline: "From your biggest fan and forever love"
 }

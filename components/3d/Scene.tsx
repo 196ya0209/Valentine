@@ -17,19 +17,19 @@ export default function Scene() {
         dpr={[1, 2]}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#FF6B35" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#FFAB91" />
+          <ambientLight intensity={0.6} />
+          <pointLight position={[10, 10, 10]} intensity={1.2} color="#E85D04" />
+          <pointLight position={[-10, -10, -10]} intensity={0.6} color="#FF9B85" />
           
           <ParticleNameAmritha />
           <FloatingHearts />
           
           <EffectComposer>
             <Bloom
-              luminanceThreshold={0.2}
+              luminanceThreshold={0.15}
               luminanceSmoothing={0.9}
-              intensity={1.5}
-              radius={0.8}
+              intensity={1.8}
+              radius={0.9}
             />
           </EffectComposer>
           

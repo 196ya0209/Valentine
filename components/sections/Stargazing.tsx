@@ -62,7 +62,7 @@ export default function Stargazing() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#0A0A1A] via-[#0A0515] to-[#1A0A0A] overflow-hidden min-h-screen"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#0A0A1A] via-[#0A0515] to-[#FFF8F0] overflow-hidden min-h-screen"
     >
       {/* Header */}
       <motion.div
@@ -73,11 +73,11 @@ export default function Stargazing() {
       >
         <h2
           className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
+          style={{ fontFamily: "'Playfair Display', serif" }}
         >
           {stargazing.title}
         </h2>
-        <p className="text-white/60">Click on the glowing stars to see our messages</p>
+        <p className="text-[#3A3229]/60">Click on the glowing stars to see our messages</p>
       </motion.div>
 
       {/* Night Sky */}
@@ -142,8 +142,8 @@ export default function Stargazing() {
           disabled={shootingStars === 0}
           className={`px-6 py-3 rounded-full ${
             shootingStars > 0 
-              ? 'bg-gradient-to-r from-[#E63946] to-[#FF69B4] text-white' 
-              : 'bg-white/10 text-white/50'
+              ? 'bg-gradient-to-r from-[#E63946] to-[#FF69B4] text-[#3A3229]' 
+              : 'bg-white/10 text-[#3A3229]/50'
           }`}
           whileHover={shootingStars > 0 ? { scale: 1.05 } : {}}
           whileTap={shootingStars > 0 ? { scale: 0.95 } : {}}
@@ -170,10 +170,10 @@ export default function Stargazing() {
               onClick={(e) => e.stopPropagation()}
             >
               <span className="text-6xl mb-4 block">⭐</span>
-              <h3 className="text-2xl text-[#FFD700] mb-4" style={{ fontFamily: "'Great Vibes', cursive" }}>
+              <h3 className="text-2xl text-[#FFD700] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {stargazing.namedStars[selectedStar].name}
               </h3>
-              <p className="text-white/80">
+              <p className="text-[#3A3229]/80">
                 {stargazing.namedStars[selectedStar].message}
               </p>
             </motion.div>

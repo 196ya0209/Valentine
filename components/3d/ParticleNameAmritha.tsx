@@ -31,7 +31,7 @@ export default function ParticleNameAmritha() {
     const color1 = new THREE.Color(heroConfig.particles.color.primary)
     const color2 = new THREE.Color(heroConfig.particles.color.glow)
     const color3 = new THREE.Color(heroConfig.particles.color.core)
-    const heartColor = new THREE.Color('#FF6B35')
+    const heartColor = new THREE.Color('#E85D04')
     
     for (let i = 0; i < particleCount; i++) {
       // Make some particles heart-shaped at random positions

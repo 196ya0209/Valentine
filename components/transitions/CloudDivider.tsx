@@ -3,6 +3,7 @@
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useRef, useMemo } from 'react'
+import { Heart, Sparkles } from 'lucide-react'
 
 interface CloudConfig {
   width: number
@@ -23,39 +24,38 @@ export default function CloudDivider() {
     offset: ["start end", "end start"]
   })
   
-  // Create immersive zoom out/in effect - feels like leaving one world entering another
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0.6, 1, 1.3, 1, 0.6])
+  // Create immersive zoom out/in effect
+  const scale = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0.7, 1, 1.2, 1, 0.7])
   const opacity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.85, 1], [0, 1, 1, 1, 0])
-  const blur = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [10, 0, 0, 0, 10])
 
-  // Pre-compute random values for clouds to avoid re-render issues
+  // Pre-compute random values for clouds
   const largeClouds = useMemo<CloudConfig[]>(() => 
-    [...Array(12)].map((_, i) => ({
-      width: 300 + Math.random() * 400,
-      height: 150 + Math.random() * 200,
-      left: (i * 12) - 20 + Math.random() * 15,
-      top: 15 + Math.random() * 50,
-      duration: 10 + i * 2,
-      delay: i * 0.4,
+    [...Array(10)].map((_, i) => ({
+      width: 350 + Math.random() * 400,
+      height: 180 + Math.random() * 200,
+      left: (i * 12) - 15 + Math.random() * 10,
+      top: 10 + Math.random() * 60,
+      duration: 12 + i * 2,
+      delay: i * 0.3,
     })), [])
 
   const mediumClouds = useMemo<CloudConfig[]>(() =>
-    [...Array(18)].map((_, i) => ({
-      width: 150 + Math.random() * 200,
-      height: 80 + Math.random() * 120,
-      left: (i * 8) - 10 + Math.random() * 10,
-      top: 5 + Math.random() * 70,
-      duration: 7 + i * 1.2,
-      delay: i * 0.25,
+    [...Array(15)].map((_, i) => ({
+      width: 180 + Math.random() * 200,
+      height: 100 + Math.random() * 120,
+      left: (i * 8) - 10 + Math.random() * 8,
+      top: 5 + Math.random() * 75,
+      duration: 8 + i * 1.5,
+      delay: i * 0.2,
     })), [])
 
   const smallClouds = useMemo<CloudConfig[]>(() =>
-    [...Array(25)].map(() => ({
-      width: 80 + Math.random() * 120,
-      height: 40 + Math.random() * 70,
-      left: Math.random() * 120 - 10,
+    [...Array(20)].map(() => ({
+      width: 100 + Math.random() * 140,
+      height: 60 + Math.random() * 80,
+      left: Math.random() * 110 - 5,
       top: Math.random() * 90,
-      duration: 5 + Math.random() * 4,
+      duration: 6 + Math.random() * 5,
       delay: Math.random() * 2,
     })), [])
 
@@ -64,21 +64,17 @@ export default function CloudDivider() {
       ref={ref} 
       className="relative h-screen w-full overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0C0A09 0%, #1C1917 20%, #292524 50%, #1C1917 80%, #0C0A09 100%)'
+        background: 'linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 20%, #FFF8F0 50%, #FFD6BA 80%, #FFE5D9 100%)'
       }}
     >
-      {/* Full screen cloud overlay with zoom effect - Page transition feel */}
+      {/* Full screen cloud overlay with zoom effect */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
-        style={{ 
-          scale, 
-          opacity,
-          filter: blur.get() > 0 ? `blur(${blur.get()}px)` : undefined,
-        }}
+        style={{ scale, opacity }}
       >
-        {/* Dreamy cloud layers filling entire viewport */}
+        {/* Dreamy cloud layers */}
         <div className="absolute inset-0">
-          {/* Cloud layer 1 - Large fluffy clouds */}
+          {/* Large fluffy clouds - warm cream/peach */}
           {largeClouds.map((cloud, i) => (
             <motion.div
               key={`cloud-large-${i}`}
@@ -88,13 +84,13 @@ export default function CloudDivider() {
                 height: `${cloud.height}px`,
                 left: `${cloud.left}%`,
                 top: `${cloud.top}%`,
-                background: 'radial-gradient(ellipse at center, rgba(251,146,60,0.25) 0%, rgba(245,158,11,0.15) 40%, rgba(28,25,23,0.3) 70%, transparent 90%)',
-                filter: 'blur(30px)',
+                background: 'radial-gradient(ellipse at center, rgba(255,248,240,0.95) 0%, rgba(255,214,186,0.7) 40%, rgba(255,229,217,0.4) 70%, transparent 90%)',
+                filter: 'blur(25px)',
               }}
               animate={{
-                x: [0, 40, 0],
-                y: [0, -20, 0],
-                scale: [1, 1.15, 1],
+                x: [0, 30, 0],
+                y: [0, -15, 0],
+                scale: [1, 1.1, 1],
               }}
               transition={{
                 duration: cloud.duration,
@@ -105,7 +101,7 @@ export default function CloudDivider() {
             />
           ))}
           
-          {/* Cloud layer 2 - Medium clouds */}
+          {/* Medium clouds - with orange hints */}
           {mediumClouds.map((cloud, i) => (
             <motion.div
               key={`cloud-med-${i}`}
@@ -115,12 +111,12 @@ export default function CloudDivider() {
                 height: `${cloud.height}px`,
                 left: `${cloud.left}%`,
                 top: `${cloud.top}%`,
-                background: 'radial-gradient(ellipse at center, rgba(251,191,36,0.2) 0%, rgba(234,88,12,0.12) 50%, transparent 80%)',
-                filter: 'blur(20px)',
+                background: 'radial-gradient(ellipse at center, rgba(255,251,245,0.9) 0%, rgba(232,93,4,0.12) 50%, transparent 80%)',
+                filter: 'blur(18px)',
               }}
               animate={{
-                x: [0, -30, 0],
-                y: [0, 25, 0],
+                x: [0, -25, 0],
+                y: [0, 20, 0],
               }}
               transition={{
                 duration: cloud.duration,
@@ -131,7 +127,7 @@ export default function CloudDivider() {
             />
           ))}
           
-          {/* Cloud layer 3 - Small accent clouds */}
+          {/* Small accent clouds - sparkly */}
           {smallClouds.map((cloud, i) => (
             <motion.div
               key={`cloud-small-${i}`}
@@ -141,12 +137,12 @@ export default function CloudDivider() {
                 height: `${cloud.height}px`,
                 left: `${cloud.left}%`,
                 top: `${cloud.top}%`,
-                background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, rgba(251,146,60,0.08) 60%, transparent 90%)',
+                background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.8) 0%, rgba(255,155,133,0.15) 60%, transparent 90%)',
                 filter: 'blur(12px)',
               }}
               animate={{
-                opacity: [0.4, 0.9, 0.4],
-                scale: [0.85, 1.2, 0.85],
+                opacity: [0.5, 1, 0.5],
+                scale: [0.9, 1.15, 0.9],
               }}
               transition={{
                 duration: cloud.duration,
@@ -162,43 +158,46 @@ export default function CloudDivider() {
         <motion.div
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(251,146,60,0.2) 0%, rgba(234,88,12,0.1) 40%, transparent 70%)',
+            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,93,4,0.15) 0%, rgba(255,155,133,0.1) 40%, transparent 70%)',
           }}
           animate={{
-            opacity: [0.5, 0.8, 0.5],
-            scale: [1, 1.15, 1],
+            opacity: [0.6, 0.9, 0.6],
+            scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: 6,
+            duration: 5,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
         
-        {/* Floating hearts scattered in clouds */}
-        {[...Array(10)].map((_, i) => (
+        {/* Floating hearts in clouds */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={`heart-${i}`}
-            className="absolute text-xl md:text-2xl"
+            className="absolute"
             style={{
-              left: `${10 + i * 9}%`,
-              top: `${20 + (i % 4) * 18}%`,
-              opacity: 0.6,
+              left: `${12 + i * 10}%`,
+              top: `${25 + (i % 3) * 20}%`,
             }}
             animate={{
-              y: [0, -40, 0],
-              opacity: [0.3, 0.7, 0.3],
-              scale: [0.7, 1.1, 0.7],
-              rotate: [-10, 10, -10],
+              y: [0, -30, 0],
+              opacity: [0.4, 0.8, 0.4],
+              scale: [0.8, 1.1, 0.8],
+              rotate: [-8, 8, -8],
             }}
             transition={{
-              duration: 5 + i * 0.8,
+              duration: 5 + i * 0.6,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.4,
+              delay: i * 0.3,
             }}
           >
-            🧡
+            <Heart 
+              className="text-[#E85D04]" 
+              size={20 + (i % 3) * 8}
+              fill="rgba(232, 93, 4, 0.3)"
+            />
           </motion.div>
         ))}
         
@@ -212,8 +211,8 @@ export default function CloudDivider() {
           <motion.div
             className="text-center px-8"
             animate={{
-              scale: [0.92, 1.08, 0.92],
-              y: [10, -10, 10],
+              scale: [0.95, 1.05, 0.95],
+              y: [8, -8, 8],
             }}
             transition={{
               duration: 4,
@@ -221,10 +220,11 @@ export default function CloudDivider() {
               ease: "easeInOut",
             }}
           >
+            {/* Sparkle icon */}
             <motion.div
-              className="text-5xl md:text-7xl mb-6"
+              className="flex justify-center mb-4"
               animate={{
-                rotate: [-5, 5, -5],
+                rotate: [0, 5, -5, 0],
                 scale: [1, 1.1, 1],
               }}
               transition={{
@@ -233,25 +233,28 @@ export default function CloudDivider() {
                 ease: "easeInOut",
               }}
             >
-              ☁️
+              <Sparkles className="w-12 h-12 text-[#E85D04]" />
             </motion.div>
+            
             <p 
-              className="text-xl md:text-2xl font-light tracking-[0.3em] uppercase"
+              className="text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase"
               style={{
-                color: '#FBBF24',
-                textShadow: '0 0 30px rgba(251,146,60,0.5), 0 0 60px rgba(234,88,12,0.3)',
+                fontFamily: "'Outfit', sans-serif",
+                color: '#E85D04',
+                textShadow: '0 0 40px rgba(232,93,4,0.3)',
               }}
             >
               Dreaming of You
             </p>
+            
             <motion.div
-              className="mt-4 flex justify-center gap-2"
-              animate={{ opacity: [0.5, 1, 0.5] }}
+              className="mt-4 flex justify-center gap-3"
+              animate={{ opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <span className="text-2xl">✨</span>
-              <span className="text-2xl">💫</span>
-              <span className="text-2xl">✨</span>
+              <Heart className="w-5 h-5 text-[#FF9B85]" fill="rgba(255,155,133,0.5)" />
+              <Heart className="w-6 h-6 text-[#E85D04]" fill="rgba(232,93,4,0.5)" />
+              <Heart className="w-5 h-5 text-[#FF9B85]" fill="rgba(255,155,133,0.5)" />
             </motion.div>
           </motion.div>
         </motion.div>
@@ -261,7 +264,7 @@ export default function CloudDivider() {
       <div 
         className="absolute top-0 left-0 right-0 h-48 pointer-events-none z-20"
         style={{
-          background: 'linear-gradient(to bottom, #0C0A09 0%, transparent 100%)',
+          background: 'linear-gradient(to bottom, #FFE5D9 0%, transparent 100%)',
         }}
       />
       
@@ -269,7 +272,7 @@ export default function CloudDivider() {
       <div 
         className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none z-20"
         style={{
-          background: 'linear-gradient(to top, #0C0A09 0%, transparent 100%)',
+          background: 'linear-gradient(to top, #FFE5D9 0%, transparent 100%)',
         }}
       />
     </div>

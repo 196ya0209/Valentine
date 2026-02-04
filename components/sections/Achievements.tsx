@@ -34,7 +34,7 @@ export default function Achievements() {
   return (
     <section 
       ref={ref}
-      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden"
+      className="relative py-32 md:py-40 bg-[#FFE5D9] overflow-hidden"
     >
       {/* Background */}
       <div className="aurora-bg opacity-20" />
@@ -47,15 +47,15 @@ export default function Achievements() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+          <motion.p className="text-[#8C7A6B] text-sm tracking-[0.3em] uppercase mb-4">
             Unlocked
           </motion.p>
           
           <h2
             className="text-5xl md:text-7xl mb-4"
             style={{ 
-              fontFamily: "'Great Vibes', cursive",
-              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              fontFamily: "'Playfair Display', serif",
+              background: 'linear-gradient(135deg, #E85D04 0%, #D4622C 50%, #FF9B85 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}
@@ -69,8 +69,8 @@ export default function Achievements() {
         {/* Her Achievements */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="flex items-center justify-center gap-2 mb-10">
-            <Trophy className="w-5 h-5 text-[#FB923C]" />
-            <h3 className="text-lg text-[#A8A29E] tracking-wide">Legendary Achievements</h3>
+            <Trophy className="w-5 h-5 text-[#E85D04]" />
+            <h3 className="text-lg text-[#8C7A6B] tracking-wide">Legendary Achievements</h3>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -95,11 +95,11 @@ export default function Achievements() {
                       <Star className={`w-5 h-5 ${style.text}`} />
                     </div>
                     <div className="flex-1 pt-1">
-                      <h4 className="text-base text-white font-medium">{achievement.title}</h4>
+                      <h4 className="text-base text-[#3A3229] font-medium">{achievement.title}</h4>
                     </div>
                   </div>
                   
-                  <p className="text-white/60 text-sm pl-[52px]">{achievement.description}</p>
+                  <p className="text-[#3A3229]/60 text-sm pl-[52px]">{achievement.description}</p>
                   
                   {/* Subtle shine on hover */}
                   <motion.div
@@ -114,8 +114,8 @@ export default function Achievements() {
         {/* Relationship Milestones */}
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-10">
-            <Check className="w-5 h-5 text-[#FB923C]" />
-            <h3 className="text-lg text-[#A8A29E] tracking-wide">Our Milestones</h3>
+            <Check className="w-5 h-5 text-[#E85D04]" />
+            <h3 className="text-lg text-[#8C7A6B] tracking-wide">Our Milestones</h3>
           </div>
           
           <div className="space-y-3">
@@ -129,26 +129,26 @@ export default function Achievements() {
                   transition={{ duration: 0.4, delay: 0.5 + index * 0.08 }}
                   className={`flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${
                     isUnlocked 
-                      ? 'bg-white/[0.03] border-[#FB923C]/20 hover:border-[#FB923C]/40' 
+                      ? 'bg-white/[0.03] border-[#E85D04]/20 hover:border-[#E85D04]/40' 
                       : 'bg-white/[0.01] border-white/[0.05] opacity-50'
                   }`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                       isUnlocked 
-                        ? 'bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/20' 
+                        ? 'bg-gradient-to-br from-[#E85D04]/20 to-[#D4622C]/20' 
                         : 'bg-white/[0.03]'
                     }`}>
                       {isUnlocked 
-                        ? <Check className="w-5 h-5 text-[#FB923C]" />
-                        : <Lock className="w-4 h-4 text-[#57534E]" />
+                        ? <Check className="w-5 h-5 text-[#E85D04]" />
+                        : <Lock className="w-4 h-4 text-[#8C7A6B]" />
                       }
                     </div>
-                    <span className={`font-medium ${isUnlocked ? 'text-white' : 'text-[#78716C]'}`}>
+                    <span className={`font-medium ${isUnlocked ? 'text-[#3A3229]' : 'text-[#8C7A6B]'}`}>
                       {milestone.title}
                     </span>
                   </div>
-                  <span className={`text-sm ${isUnlocked ? 'text-[#FB923C]' : 'text-[#57534E]'}`}>
+                  <span className={`text-sm ${isUnlocked ? 'text-[#E85D04]' : 'text-[#8C7A6B]'}`}>
                     {milestone.status}
                   </span>
                 </motion.div>

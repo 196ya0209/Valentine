@@ -21,7 +21,7 @@ export default function DreamDestinations() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#0A1A2A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#FFE5D9] via-[#0A1A2A] to-[#FFF8F0] overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
@@ -33,7 +33,7 @@ export default function DreamDestinations() {
         >
           <h2
             className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {dreamDestinations.title}
           </h2>
@@ -125,7 +125,7 @@ export default function DreamDestinations() {
                 <div className="flex items-center gap-4">
                   <span className="text-3xl">{place.emoji}</span>
                   <div>
-                    <h4 className="text-white font-semibold">{place.place}</h4>
+                    <h4 className="text-[#3A3229] font-semibold">{place.place}</h4>
                     <p className="text-[#FFB4C2] text-sm">{place.reason}</p>
                   </div>
                 </div>
@@ -149,11 +149,11 @@ export default function DreamDestinations() {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              className="bg-gradient-to-br from-[#2D0A0A] to-[#1A0A0A] p-8 rounded-2xl max-w-md w-full border border-[#FFB4C2]/30 text-center"
+              className="bg-gradient-to-br from-[#2D0A0A] to-[#FFF8F0] p-8 rounded-2xl max-w-md w-full border border-[#FFB4C2]/30 text-center"
               onClick={(e) => e.stopPropagation()}
             >
               <span className="text-6xl mb-4 block">{dreamDestinations.places[selectedPlace].emoji}</span>
-              <h3 className="text-2xl text-white mb-2">{dreamDestinations.places[selectedPlace].place}</h3>
+              <h3 className="text-2xl text-[#3A3229] mb-2">{dreamDestinations.places[selectedPlace].place}</h3>
               <p className="text-[#FFB4C2]">{dreamDestinations.places[selectedPlace].reason}</p>
             </motion.div>
           </motion.div>

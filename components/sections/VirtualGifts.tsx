@@ -29,7 +29,7 @@ export default function VirtualGifts() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#2D0A0A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#FFE5D9] via-[#FFD6BA] to-[#FFF8F0] overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
@@ -41,7 +41,7 @@ export default function VirtualGifts() {
         >
           <h2
             className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {virtualGifts.title}
           </h2>
@@ -109,7 +109,7 @@ export default function VirtualGifts() {
                     </motion.div>
                   ))}
                 </motion.div>
-                <p className="text-white/60 mt-8 animate-pulse">Click to open your gift!</p>
+                <p className="text-[#3A3229]/60 mt-8 animate-pulse">Click to open your gift!</p>
               </motion.div>
             ) : (
               /* Coupons */
@@ -140,8 +140,8 @@ export default function VirtualGifts() {
                       <div className="flex items-start gap-4">
                         <div className="text-4xl">🎟️</div>
                         <div>
-                          <h4 className="text-white font-bold mb-2">{coupon.title}</h4>
-                          <p className="text-white/70 text-sm mb-2">{coupon.description}</p>
+                          <h4 className="text-[#3A3229] font-bold mb-2">{coupon.title}</h4>
+                          <p className="text-[#3A3229]/70 text-sm mb-2">{coupon.description}</p>
                           <span className="text-[#FFB4C2] text-xs">For: {coupon.petName}</span>
                         </div>
                       </div>
@@ -150,7 +150,7 @@ export default function VirtualGifts() {
                         <motion.div
                           initial={{ opacity: 0, scale: 0 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white"
+                          className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-[#3A3229]"
                         >
                           ✓
                         </motion.div>
