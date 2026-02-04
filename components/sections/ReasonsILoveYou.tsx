@@ -26,11 +26,11 @@ export default function ReasonsILoveYou() {
   return (
     <section 
       ref={ref}
-      className="relative py-32 md:py-40 bg-[#FFE5D9] overflow-hidden"
+      className="relative py-32 md:py-40 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 30%, #FFE5D9 60%, #FFF8F0 100%)'
+      }}
     >
-      {/* Background */}
-      <div className="aurora-bg opacity-20" />
-      
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <motion.div
@@ -39,28 +39,47 @@ export default function ReasonsILoveYou() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.p className="text-[#8C7A6B] text-sm tracking-[0.3em] uppercase mb-4">
+          <motion.p 
+            className="text-sm tracking-[0.3em] uppercase mb-4 font-semibold"
+            style={{ 
+              fontFamily: "'Outfit', sans-serif",
+              color: '#D4622C'
+            }}
+          >
             Let Me Count The Ways
           </motion.p>
           
           <h2
-            className="text-5xl md:text-7xl mb-4"
+            className="text-5xl md:text-7xl mb-4 font-bold"
             style={{ 
               fontFamily: "'Playfair Display', serif",
-              background: 'linear-gradient(135deg, #E85D04 0%, #D4622C 50%, #FF9B85 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              color: '#E85D04'
             }}
           >
             Reasons I Love You
           </h2>
           
-          <p className="text-[#8C7A6B] text-base flex items-center justify-center gap-2">
+          <p 
+            className="text-base flex items-center justify-center gap-2"
+            style={{ 
+              fontFamily: "'Outfit', sans-serif",
+              color: '#8C7A6B'
+            }}
+          >
             <RotateCcw className="w-4 h-4" />
             Tap each card to reveal
           </p>
           
-          <div className="section-divider w-24 mx-auto mt-6" />
+          {/* Wavy divider */}
+          <svg className="w-32 h-4 mx-auto mt-6" viewBox="0 0 120 12">
+            <path 
+              d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6" 
+              fill="none" 
+              stroke="#E85D04" 
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
         </motion.div>
 
         {/* Cards Grid */}
@@ -83,16 +102,33 @@ export default function ReasonsILoveYou() {
               >
                 {/* Front of card */}
                 <div 
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#E85D04]/20 to-[#D4622C]/10 border border-[#E85D04]/20 backdrop-blur-xl flex flex-col items-center justify-center p-4 backface-hidden"
-                  style={{ backfaceVisibility: 'hidden' }}
+                  className="absolute inset-0 rounded-2xl flex flex-col items-center justify-center p-4"
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    background: 'rgba(255, 251, 245, 0.95)',
+                    border: '2px solid rgba(255, 214, 186, 0.6)',
+                    boxShadow: '0 8px 24px rgba(232, 93, 4, 0.12)'
+                  }}
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#E85D04] to-[#D4622C] flex items-center justify-center mb-4">
-                    <Heart className="w-6 h-6 text-[#3A3229] fill-white" />
+                  <div 
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+                    style={{
+                      background: 'linear-gradient(135deg, #E85D04, #FF9B85)',
+                      boxShadow: '0 4px 12px rgba(232, 93, 4, 0.25)'
+                    }}
+                  >
+                    <Heart className="w-6 h-6 text-white" fill="white" />
                   </div>
-                  <span className="text-[#3A3229] font-medium text-center text-sm md:text-base">
+                  <span 
+                    className="font-semibold text-center text-sm md:text-base"
+                    style={{ color: '#3A3229' }}
+                  >
                     {item.petName}
                   </span>
-                  <span className="text-[#8C7A6B] text-xs mt-3 flex items-center gap-1">
+                  <span 
+                    className="text-xs mt-3 flex items-center gap-1"
+                    style={{ color: '#8C7A6B' }}
+                  >
                     <RotateCcw className="w-3 h-3" />
                     Tap
                   </span>
@@ -100,13 +136,18 @@ export default function ReasonsILoveYou() {
 
                 {/* Back of card */}
                 <div 
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#FEF3C7] to-[#FDE68A] flex items-center justify-center p-5 backface-hidden"
+                  className="absolute inset-0 rounded-2xl flex items-center justify-center p-5"
                   style={{ 
                     backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg)'
+                    transform: 'rotateY(180deg)',
+                    background: 'linear-gradient(135deg, #E85D04, #D4622C)',
+                    boxShadow: '0 8px 24px rgba(232, 93, 4, 0.25)'
                   }}
                 >
-                  <p className="text-[#78350F] text-center text-sm md:text-base font-medium leading-relaxed">
+                  <p 
+                    className="text-center text-sm md:text-base font-medium leading-relaxed"
+                    style={{ color: '#FFFBF5' }}
+                  >
                     {item.reason}
                   </p>
                 </div>
@@ -115,8 +156,8 @@ export default function ReasonsILoveYou() {
                 {flippedCards.has(index) && (
                   <motion.div
                     className="absolute inset-0 rounded-2xl pointer-events-none"
-                    initial={{ boxShadow: '0 0 0px rgba(251, 146, 60, 0)' }}
-                    animate={{ boxShadow: '0 20px 60px rgba(251, 191, 36, 0.2)' }}
+                    initial={{ boxShadow: '0 0 0px rgba(232, 93, 4, 0)' }}
+                    animate={{ boxShadow: '0 20px 60px rgba(232, 93, 4, 0.3)' }}
                   />
                 )}
               </motion.div>

@@ -14,18 +14,16 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8, // Slower, dreamier scroll
+      duration: 1.4, // Balanced smooth scroll duration
       easing: (t) => {
-        // Custom easing for ultra-smooth feel
-        return t < 0.5 
-          ? 4 * t * t * t 
-          : 1 - Math.pow(-2 * t + 2, 3) / 2
+        // Smooth ease-out-expo for natural feel
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
       },
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.8, // Slower wheel for dreamy feel
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.0, // Normal scroll speed
+      touchMultiplier: 2.0, // More responsive touch
       infinite: false,
     })
 

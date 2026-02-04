@@ -8,8 +8,6 @@ import LoadingScreen from '@/components/loading/LoadingScreen'
 import SmoothScroll from '@/components/SmoothScroll'
 import AudioControls from '@/components/audio/AudioControls'
 import AudioManager from '@/components/audio/AudioManager'
-import HeartCloudTransition from '@/components/transitions/HeartCloudTransition'
-import CloudDivider from '@/components/transitions/CloudDivider'
 import FloatingModels from '@/components/3d/FloatingModels'
 import Hero from '@/components/sections/Hero'
 import StoryTimeline from '@/components/sections/StoryTimeline'
@@ -24,7 +22,6 @@ import VirtualGifts from '@/components/sections/VirtualGifts'
 import Stargazing from '@/components/sections/Stargazing'
 import DreamDestinations from '@/components/sections/DreamDestinations'
 import OurSoundtrack from '@/components/sections/OurSoundtrack'
-import VirtualGarden from '@/components/sections/VirtualGarden'
 import FinalMessage from '@/components/sections/FinalMessage'
 import SunsetEnding from '@/components/sections/SunsetEnding'
 
@@ -75,42 +72,24 @@ export default function ExperiencePage() {
           
           <SmoothScroll>
             <Hero />
-            <CloudDivider />
             <StoryTimeline />
-            <CloudDivider />
             <PhotoGallery />
-            <CloudDivider />
             <PetNamesGalaxy />
-            <CloudDivider />
             <ReasonsILoveYou />
-            <CloudDivider />
             <LoveLetter />
-            <CloudDivider />
             <Games />
-            <CloudDivider />
             <OurFuture />
-            <CloudDivider />
             <Achievements />
-            <CloudDivider />
             <VirtualGifts />
-            <CloudDivider />
             <Stargazing />
-            <CloudDivider />
             <DreamDestinations />
-            <CloudDivider />
             <OurSoundtrack />
-            <CloudDivider />
-            <VirtualGarden />
-            <CloudDivider />
             <FinalMessage />
-            <CloudDivider />
             <SunsetEnding />
             <AudioControls />
           </SmoothScroll>
         </>
       )}
-
-      <HeartCloudTransition isActive={false} />
     </main>
   )
 }

@@ -1,41 +1,55 @@
 // components/sections/OurFuture.tsx
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { futureWithAmritha } from '@/config/future'
+import { Sparkles } from 'lucide-react'
 
 export default function OurFuture() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
 
+  // Memoize star positions
+  const starPositions = useMemo(() => 
+    [...Array(30)].map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 60}%`,
+      duration: 2 + Math.random() * 2,
+      delay: Math.random() * 2,
+    })), []
+  )
+
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#FFE5D9] via-[#0A0A1A] to-[#FFF8F0] overflow-hidden"
+      className="relative py-24 md:py-32 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 30%, #FFE5D9 60%, #FFF8F0 100%)'
+      }}
     >
-      {/* Horizon gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#FF69B4]/10 to-transparent" />
-      
-      {/* Stars */}
+      {/* Decorative sparkles */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(50)].map((_, i) => (
+        {starPositions.map((star, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 60}%`,
+              left: star.left,
+              top: star.top,
             }}
             animate={{
-              opacity: [0.3, 1, 0.3],
+              opacity: [0.2, 0.6, 0.2],
+              scale: [0.8, 1.2, 0.8],
             }}
             transition={{
-              duration: 2 + Math.random() * 2,
+              duration: star.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: star.delay,
             }}
-          />
+          >
+            <Sparkles className="w-3 h-3" style={{ color: 'rgba(232, 93, 4, 0.4)' }} />
+          </motion.div>
         ))}
       </div>
 
@@ -47,22 +61,57 @@ export default function OurFuture() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.p 
+            className="text-sm tracking-[0.3em] uppercase mb-4 font-semibold"
+            style={{ 
+              fontFamily: "'Outfit', sans-serif",
+              color: '#D4622C'
+            }}
+          >
+            Looking Ahead
+          </motion.p>
+          
           <h2
-            className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="text-5xl md:text-7xl mb-4 font-bold"
+            style={{ 
+              fontFamily: "'Playfair Display', serif",
+              color: '#E85D04'
+            }}
           >
             {futureWithAmritha.title}
           </h2>
-          <p className="text-[#3A3229]/60 text-lg">
+          <p 
+            className="text-lg"
+            style={{ 
+              fontFamily: "'Outfit', sans-serif",
+              color: '#8C7A6B'
+            }}
+          >
             {futureWithAmritha.subtitle}
           </p>
+          
+          {/* Wavy divider */}
+          <svg className="w-32 h-4 mx-auto mt-6" viewBox="0 0 120 12">
+            <path 
+              d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6" 
+              fill="none" 
+              stroke="#E85D04" 
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
         </motion.div>
 
         {/* Dreams Timeline */}
         <div className="max-w-4xl mx-auto mb-20">
           <div className="relative">
             {/* Path line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#E63946] via-[#FF69B4] to-[#FFB4C2]" />
+            <div 
+              className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5"
+              style={{
+                background: 'linear-gradient(180deg, #E85D04, #FF9B85, #FFD6BA)'
+              }}
+            />
 
             {futureWithAmritha.dreams.map((dream, index) => (
               <motion.div
@@ -73,18 +122,53 @@ export default function OurFuture() {
                 className={`relative flex ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} mb-12`}
               >
                 {/* Timeline dot */}
-                <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-[#FFB4C2] rounded-full ring-4 ring-[#1A0A0A] z-10" />
+                <div 
+                  className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full z-10"
+                  style={{
+                    background: '#E85D04',
+                    boxShadow: '0 0 0 4px #FFF8F0, 0 0 0 6px rgba(232, 93, 4, 0.3)'
+                  }}
+                />
 
                 <motion.div
-                  className={`ml-16 md:ml-0 md:w-5/12 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-[#FFB4C2]/20 ${
+                  className={`ml-16 md:ml-0 md:w-5/12 p-6 rounded-2xl ${
                     index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
                   }`}
-                  whileHover={{ scale: 1.02, borderColor: 'rgba(255, 105, 180, 0.5)' }}
+                  style={{
+                    background: 'rgba(255, 251, 245, 0.95)',
+                    border: '2px solid rgba(255, 214, 186, 0.6)',
+                    boxShadow: '0 8px 24px rgba(232, 93, 4, 0.12)'
+                  }}
+                  whileHover={{ 
+                    scale: 1.02, 
+                    boxShadow: '0 12px 36px rgba(232, 93, 4, 0.18)' 
+                  }}
                 >
                   <span className="text-4xl mb-4 block">{dream.emoji}</span>
-                  <h3 className="text-xl text-[#3A3229] font-semibold mb-2">{dream.title}</h3>
-                  <p className="text-[#3A3229]/70 mb-3">{dream.description}</p>
-                  <span className="text-[#FFB4C2] text-sm">{dream.timeline}</span>
+                  <h3 
+                    className="text-xl font-semibold mb-2"
+                    style={{ 
+                      fontFamily: "'Playfair Display', serif",
+                      color: '#3A3229'
+                    }}
+                  >
+                    {dream.title}
+                  </h3>
+                  <p 
+                    className="mb-3"
+                    style={{ 
+                      fontFamily: "'Outfit', sans-serif",
+                      color: '#8C7A6B'
+                    }}
+                  >
+                    {dream.description}
+                  </p>
+                  <span 
+                    className="text-sm font-semibold"
+                    style={{ color: '#E85D04' }}
+                  >
+                    {dream.timeline}
+                  </span>
                 </motion.div>
               </motion.div>
             ))}
@@ -98,7 +182,13 @@ export default function OurFuture() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="max-w-2xl mx-auto"
         >
-          <h3 className="text-3xl text-[#FFB4C2] text-center mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h3 
+            className="text-3xl text-center mb-8 font-bold"
+            style={{ 
+              fontFamily: "'Playfair Display', serif",
+              color: '#E85D04'
+            }}
+          >
             Our Bucket List
           </h3>
           <div className="space-y-3">
@@ -108,12 +198,27 @@ export default function OurFuture() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
-                className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FFB4C2]/30 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-xl transition-colors"
+                style={{
+                  background: 'rgba(255, 251, 245, 0.9)',
+                  border: '2px solid rgba(255, 214, 186, 0.5)'
+                }}
               >
-                <div className="w-5 h-5 rounded border-2 border-[#FFB4C2] flex items-center justify-center">
-                  <span className="text-[#FFB4C2] text-xs">○</span>
+                <div 
+                  className="w-5 h-5 rounded border-2 flex items-center justify-center"
+                  style={{ borderColor: '#E85D04' }}
+                >
+                  <span style={{ color: '#E85D04', fontSize: '10px' }}>○</span>
                 </div>
-                <span className="text-[#3A3229]/80">{item}</span>
+                <span 
+                  className="font-medium"
+                  style={{ 
+                    fontFamily: "'Outfit', sans-serif",
+                    color: '#3A3229'
+                  }}
+                >
+                  {item}
+                </span>
               </motion.div>
             ))}
           </div>
