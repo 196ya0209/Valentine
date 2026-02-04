@@ -4,6 +4,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { loveLetterToAmritha } from '@/config/loveLetter'
+import { Heart, Mail } from 'lucide-react'
 
 export default function LoveLetter() {
   const ref = useRef(null)
@@ -13,7 +14,7 @@ export default function LoveLetter() {
 
   useEffect(() => {
     if (isInView && !isOpen) {
-      setTimeout(() => setIsOpen(true), 500)
+      setTimeout(() => setIsOpen(true), 800)
     }
   }, [isInView, isOpen])
 
@@ -27,7 +28,7 @@ export default function LoveLetter() {
           }
           return prev + 1
         })
-      }, 1500)
+      }, 1200)
       return () => clearInterval(interval)
     }
   }, [isOpen])
@@ -35,95 +36,125 @@ export default function LoveLetter() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A00] via-[#2D1408] to-[#1A0A00] overflow-hidden min-h-screen flex items-center justify-center"
+      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden min-h-screen flex items-center justify-center"
     >
-      {/* Aurora background */}
+      {/* Ambient Background */}
       <div className="aurora-bg opacity-30" />
       
       <div className="container mx-auto px-4 md:px-8 max-w-3xl relative z-10">
-        {/* Envelope */}
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          className="text-center mb-12"
+        >
+          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+            From My Heart
+          </motion.p>
+          
+          <h2
+            className="text-4xl md:text-5xl"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
+          >
+            A Letter For You
+          </h2>
+        </motion.div>
+        
+        {/* Envelope / Letter Container */}
         <motion.div
           className="relative"
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.9, opacity: 0 }}
           animate={isInView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Closed envelope */}
+          {/* Closed Envelope */}
           <motion.div
-            className="w-full aspect-[4/3] bg-gradient-to-br from-[#FFE4C4] to-[#FFAB91] rounded-lg shadow-2xl relative overflow-hidden"
+            className="w-full aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer"
             animate={{ 
-              rotateX: isOpen ? -180 : 0,
-              opacity: isOpen ? 0 : 1
+              opacity: isOpen ? 0 : 1,
+              scale: isOpen ? 0.9 : 1,
+              y: isOpen ? -50 : 0
             }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            style={{ transformOrigin: "top center" }}
+            transition={{ duration: 0.6 }}
+            style={{ display: isOpen ? 'none' : 'block' }}
           >
-            {/* Envelope flap */}
-            <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-br from-[#FFAB91] to-[#FF6B35]" 
-              style={{
-                clipPath: 'polygon(0 0, 50% 80%, 100% 0)'
-              }}
-            />
-            {/* Heart seal */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#FF6B35] rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-2xl">💕</span>
-            </div>
-            {/* Address */}
-            <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 text-center">
-              <p className="text-[#5C3D2D] text-lg" style={{ fontFamily: "'Great Vibes', cursive" }}>
-                To: My Beloved Mookie
-              </p>
+            <div className="w-full h-full bg-gradient-to-br from-[#FEF3C7] to-[#FDE68A] relative">
+              {/* Envelope flap */}
+              <div 
+                className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-br from-[#FBBF24] to-[#F59E0B]" 
+                style={{ clipPath: 'polygon(0 0, 50% 70%, 100% 0)' }}
+              />
+              
+              {/* Seal */}
+              <div className="absolute top-[35%] left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-[#EA580C] to-[#DC2626] rounded-full flex items-center justify-center shadow-lg">
+                <Heart className="w-6 h-6 text-white fill-white" />
+              </div>
+              
+              {/* Address */}
+              <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-center">
+                <p className="text-[#92400E] text-lg" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                  To: My Beloved
+                </p>
+              </div>
             </div>
           </motion.div>
 
-          {/* Letter content */}
+          {/* Opened Letter */}
           <motion.div
-            className="absolute inset-0 w-full rounded-lg shadow-2xl overflow-hidden"
+            className="w-full rounded-2xl overflow-hidden shadow-2xl"
             initial={{ opacity: 0, y: 50 }}
             animate={{ 
               opacity: isOpen ? 1 : 0,
               y: isOpen ? 0 : 50
             }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ display: isOpen ? 'block' : 'none' }}
           >
-            {/* Paper background with proper lines */}
+            {/* Paper */}
             <div 
-              className="w-full h-full bg-[#FFF8F0] p-6 md:p-10 overflow-y-auto"
+              className="w-full bg-[#FFFBEB] p-8 md:p-12"
               style={{ 
-                minHeight: '600px',
-                maxHeight: '80vh',
+                minHeight: '500px',
                 background: `
-                  linear-gradient(#FFF8F0 29px, #FF6B35 29px, #FF6B35 30px, #FFF8F0 30px),
-                  linear-gradient(90deg, transparent 0%, transparent 100%)
-                `,
-                backgroundSize: '100% 30px',
-                lineHeight: '30px'
+                  repeating-linear-gradient(
+                    transparent,
+                    transparent 31px,
+                    rgba(234, 88, 12, 0.08) 31px,
+                    rgba(234, 88, 12, 0.08) 32px
+                  ),
+                  linear-gradient(to bottom, #FFFBEB, #FEF3C7)
+                `
               }}
             >
+              {/* Red margin line */}
+              <div className="absolute left-12 md:left-16 top-0 bottom-0 w-[1px] bg-[#F43F5E]/20" />
+              
               {/* Greeting */}
               <motion.h2
-                className="text-3xl md:text-4xl mb-8 leading-[30px]"
+                className="text-3xl md:text-4xl mb-8 relative"
                 style={{ 
                   fontFamily: "'Great Vibes', cursive",
-                  color: '#FF6B35'
+                  color: '#EA580C',
+                  lineHeight: '32px'
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: visibleParagraphs >= 1 ? 1 : 0 }}
-                transition={{ duration: 0.5 }}
               >
                 {loveLetterToAmritha.greeting}
               </motion.h2>
 
               {/* Paragraphs */}
-              <div className="space-y-0">
+              <div className="space-y-6 text-[#44403C]">
                 {loveLetterToAmritha.paragraphs.map((paragraph, index) => (
                   <motion.p
                     key={index}
-                    className="leading-[30px] text-base md:text-lg py-1"
-                    style={{ 
-                      color: '#2D1408',
-                      fontFamily: 'Georgia, serif'
-                    }}
+                    className="text-base md:text-lg leading-8"
+                    style={{ fontFamily: "'Georgia', serif" }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ 
                       opacity: visibleParagraphs >= index + 2 ? 1 : 0,
@@ -138,28 +169,26 @@ export default function LoveLetter() {
 
               {/* Closing */}
               <motion.div
-                className="mt-8 text-right"
+                className="mt-12 text-right"
                 initial={{ opacity: 0 }}
                 animate={{ 
                   opacity: visibleParagraphs >= loveLetterToAmritha.paragraphs.length + 2 ? 1 : 0 
                 }}
-                transition={{ duration: 0.5 }}
               >
-                <p className="leading-[30px]" style={{ color: '#2D1408' }}>
+                <p className="text-[#44403C]" style={{ fontFamily: "'Georgia', serif" }}>
                   {loveLetterToAmritha.closing}
                 </p>
                 <p 
-                  className="text-2xl leading-[30px] mt-2"
+                  className="text-3xl mt-4"
                   style={{ 
                     fontFamily: "'Great Vibes', cursive",
-                    color: '#FF6B35'
+                    color: '#EA580C'
                   }}
                 >
                   {loveLetterToAmritha.signature}
                 </p>
                 <p 
-                  className="text-sm mt-4 italic leading-[30px]"
-                  style={{ color: '#FF6B35' }}
+                  className="text-sm mt-6 italic text-[#78716C]"
                 >
                   {loveLetterToAmritha.postScript}
                 </p>
@@ -167,6 +196,19 @@ export default function LoveLetter() {
             </div>
           </motion.div>
         </motion.div>
+        
+        {/* Tap hint when closed */}
+        {!isOpen && isInView && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="text-center text-[#57534E] text-sm mt-6 flex items-center justify-center gap-2"
+          >
+            <Mail className="w-4 h-4" />
+            Opening your letter...
+          </motion.p>
+        )}
       </div>
     </section>
   )

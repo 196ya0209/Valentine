@@ -4,6 +4,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { reasonsILoveAmritha } from '@/config/reasons'
+import { Heart, RotateCcw } from 'lucide-react'
 
 export default function ReasonsILoveYou() {
   const ref = useRef(null)
@@ -25,8 +26,11 @@ export default function ReasonsILoveYou() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#2D0A0A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden"
     >
+      {/* Background */}
+      <div className="aurora-bg opacity-20" />
+      
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <motion.div
@@ -35,24 +39,37 @@ export default function ReasonsILoveYou() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+            Let Me Count The Ways
+          </motion.p>
+          
           <h2
-            className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            className="text-5xl md:text-7xl mb-4"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
           >
             Reasons I Love You
           </h2>
-          <p className="text-white/60 text-lg">
-            Click each card to reveal why, Mookie 💕
+          
+          <p className="text-[#A8A29E] text-base flex items-center justify-center gap-2">
+            <RotateCcw className="w-4 h-4" />
+            Tap each card to reveal
           </p>
+          
+          <div className="section-divider w-24 mx-auto mt-6" />
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto">
           {reasonsILoveAmritha.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.05 }}
               className="perspective-1000"
             >
@@ -60,41 +77,46 @@ export default function ReasonsILoveYou() {
                 className="relative w-full aspect-[3/4] cursor-pointer"
                 style={{ transformStyle: 'preserve-3d' }}
                 animate={{ rotateY: flippedCards.has(index) ? 180 : 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
                 onClick={() => toggleCard(index)}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ y: -4 }}
               >
                 {/* Front of card */}
                 <div 
-                  className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#E63946] to-[#FF69B4] flex flex-col items-center justify-center p-4 backface-hidden"
+                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/10 border border-[#FB923C]/20 backdrop-blur-xl flex flex-col items-center justify-center p-4 backface-hidden"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
-                  <span className="text-4xl mb-3">❤️</span>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] flex items-center justify-center mb-4">
+                    <Heart className="w-6 h-6 text-white fill-white" />
+                  </div>
                   <span className="text-white font-medium text-center text-sm md:text-base">
                     {item.petName}
                   </span>
-                  <span className="text-white/60 text-xs mt-2">Tap to reveal</span>
+                  <span className="text-[#78716C] text-xs mt-3 flex items-center gap-1">
+                    <RotateCcw className="w-3 h-3" />
+                    Tap
+                  </span>
                 </div>
 
                 {/* Back of card */}
                 <div 
-                  className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FFB4C2] to-[#FFDDE1] flex items-center justify-center p-4 backface-hidden"
+                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#FEF3C7] to-[#FDE68A] flex items-center justify-center p-5 backface-hidden"
                   style={{ 
                     backfaceVisibility: 'hidden',
                     transform: 'rotateY(180deg)'
                   }}
                 >
-                  <p className="text-[#2D0A0A] text-center text-xs md:text-sm font-medium leading-relaxed">
+                  <p className="text-[#78350F] text-center text-sm md:text-base font-medium leading-relaxed">
                     {item.reason}
                   </p>
                 </div>
 
-                {/* Glow effect */}
+                {/* Subtle glow when flipped */}
                 {flippedCards.has(index) && (
                   <motion.div
-                    className="absolute inset-0 rounded-xl"
-                    initial={{ boxShadow: '0 0 0px rgba(255, 105, 180, 0)' }}
-                    animate={{ boxShadow: '0 0 30px rgba(255, 105, 180, 0.5)' }}
+                    className="absolute inset-0 rounded-2xl pointer-events-none"
+                    initial={{ boxShadow: '0 0 0px rgba(251, 146, 60, 0)' }}
+                    animate={{ boxShadow: '0 20px 60px rgba(251, 191, 36, 0.2)' }}
                   />
                 )}
               </motion.div>

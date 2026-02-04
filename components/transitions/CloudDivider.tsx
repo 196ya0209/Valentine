@@ -9,8 +9,8 @@ export default function CloudDivider() {
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   return (
-    <div ref={ref} className="relative h-32 md:h-48 overflow-hidden">
-      {/* Cloud layer 1 */}
+    <div ref={ref} className="relative h-24 md:h-32 overflow-hidden bg-[#0C0A09]">
+      {/* Subtle gradient wave */}
       <motion.div
         className="absolute inset-0"
         initial={{ opacity: 0 }}
@@ -19,59 +19,52 @@ export default function CloudDivider() {
       >
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-full">
           <defs>
-            <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255, 107, 53, 0.3)" />
-              <stop offset="50%" stopColor="rgba(255, 215, 0, 0.2)" />
-              <stop offset="100%" stopColor="rgba(255, 171, 145, 0.3)" />
+            <linearGradient id="dividerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(251, 146, 60, 0.08)" />
+              <stop offset="50%" stopColor="rgba(245, 158, 11, 0.12)" />
+              <stop offset="100%" stopColor="rgba(251, 146, 60, 0.08)" />
             </linearGradient>
           </defs>
           <motion.path
-            d="M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z"
-            fill="url(#cloudGradient)"
+            d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z"
+            fill="url(#dividerGradient)"
             animate={{
               d: [
-                "M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z",
-                "M0,80 C150,20 350,100 600,50 C850,0 1050,100 1200,80 L1200,120 L0,120 Z",
-                "M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z",
+                "M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z",
+                "M0,70 C200,30 400,90 600,50 C800,10 1000,90 1200,70 L1200,120 L0,120 Z",
+                "M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z",
               ],
             }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
         </svg>
       </motion.div>
 
-      {/* Floating hearts and sparkles */}
-      {[...Array(8)].map((_, i) => (
+      {/* Subtle particles */}
+      {[...Array(5)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-2xl"
+          className="absolute w-1 h-1 rounded-full bg-[#FB923C]"
           style={{
-            left: `${10 + i * 12}%`,
+            left: `${15 + i * 18}%`,
             top: '50%',
           }}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0 }}
           animate={isInView ? {
-            opacity: [0, 0.8, 0],
-            y: [20, -20, 20],
+            opacity: [0, 0.5, 0],
+            y: [10, -10, 10],
           } : {}}
           transition={{
-            duration: 3,
-            delay: i * 0.2,
+            duration: 4,
+            delay: i * 0.3,
             repeat: Infinity,
+            ease: "easeInOut"
           }}
-        >
-          {i % 2 === 0 ? '🧡' : '✨'}
-        </motion.div>
+        />
       ))}
 
-      {/* Dreamy mist effect */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFAB91]/10 to-transparent"
-        animate={{
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
+      {/* Center line */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-32 h-[1px] bg-gradient-to-r from-transparent via-[#FB923C]/30 to-transparent" />
     </div>
   )
 }

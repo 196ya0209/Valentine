@@ -4,49 +4,24 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { Heart, Lock } from 'lucide-react'
 import { passwordGateConfig } from '@/config/passwordGate'
 import { siteConfig } from '@/config/siteConfig'
 import { useAuthStore } from '@/stores/authStore'
 import { cn } from '@/lib/utils'
 import confetti from 'canvas-confetti'
 
-interface FloatingHeart {
-  id: number
-  x: number
-  delay: number
-  duration: number
-  emoji: string
-}
-
 export default function PasswordGate() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isShaking, setIsShaking] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [hearts, setHearts] = useState<FloatingHeart[]>([])
   const [isMounted, setIsMounted] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const router = useRouter()
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
-  const emojis = ['🧡', '💛', '❤️', '✨', '🔥', '💕']
-
   useEffect(() => {
-    // This is intentional - we need to know when we're on client side
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
-    // Generate hearts on client side only
-    const generatedHearts: FloatingHeart[] = []
-    for (let i = 0; i < 25; i++) {
-      generatedHearts.push({
-        id: i,
-        x: Math.random() * 100,
-        delay: Math.random() * 5,
-        duration: 10 + Math.random() * 10,
-        emoji: emojis[i % emojis.length]
-      })
-    }
-    setHearts(generatedHearts)
   }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -56,13 +31,15 @@ export default function PasswordGate() {
       setIsSuccess(true)
       setAuthenticated(true)
       
-      // Heart burst confetti with orange theme
+      // Elegant confetti
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 80,
+        spread: 100,
         origin: { y: 0.6 },
-        colors: ['#FF6B35', '#FFD700', '#FFAB91', '#FFFFFF'],
-        shapes: ['circle']
+        colors: ['#FB923C', '#F59E0B', '#FBBF24', '#FFFFFF'],
+        shapes: ['circle'],
+        gravity: 0.8,
+        scalar: 1.2
       })
       
       setTimeout(() => {
@@ -82,95 +59,147 @@ export default function PasswordGate() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#1A0A00] via-[#2D1408] to-[#1A0A00]">
-        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700] flex items-center justify-center shadow-lg shadow-orange-500/30">
-          <Heart className="w-10 h-10 text-white fill-white" />
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-[#0C0A09]">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] animate-pulse" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#1A0A00] via-[#2D1408] to-[#1A0A00] relative overflow-hidden">
-      {/* Aurora background */}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0C0A09] relative overflow-hidden">
+      {/* Ambient Background */}
       <div className="aurora-bg" />
       
-      {/* Floating Hearts Background */}
+      {/* Subtle floating orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {hearts.map((heart) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
-            key={heart.id}
-            className="absolute text-2xl"
-            style={{ left: `${heart.x}%` }}
-            initial={{
-              y: '100vh',
-              opacity: 0.3,
+            key={i}
+            className="absolute rounded-full blur-3xl"
+            style={{ 
+              width: `${150 + i * 50}px`,
+              height: `${150 + i * 50}px`,
+              left: `${10 + i * 15}%`,
+              top: `${20 + (i % 3) * 25}%`,
+              background: `radial-gradient(circle, rgba(251, 146, 60, ${0.04 - i * 0.005}) 0%, transparent 70%)`
             }}
             animate={{
-              y: '-10vh',
-              opacity: [0.3, 0.6, 0.3],
+              y: [0, -30, 0],
+              x: [0, 20, 0],
+              scale: [1, 1.1, 1],
             }}
             transition={{
-              duration: heart.duration,
+              duration: 8 + i * 2,
               repeat: Infinity,
-              delay: heart.delay,
+              ease: "easeInOut",
+              delay: i * 0.5
             }}
-          >
-            {heart.emoji}
-          </motion.div>
+          />
         ))}
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "text-center z-10 px-8",
+          "relative z-10 w-full max-w-md px-8",
           isShaking && "animate-shake"
         )}
       >
-        {/* Lock Icon */}
+        {/* Logo/Icon */}
         <motion.div
-          className="mb-8"
-          animate={{ scale: isSuccess ? [1, 1.2, 1] : 1 }}
-          transition={{ duration: 0.5 }}
+          className="mb-12 flex justify-center"
+          animate={isSuccess ? { scale: [1, 1.2, 1] } : {}}
         >
-          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700] flex items-center justify-center shadow-lg shadow-orange-500/30 animate-glow-pulse">
-            {isSuccess ? (
-              <Heart className="w-10 h-10 text-white fill-white" />
-            ) : (
-              <Lock className="w-10 h-10 text-white" />
-            )}
+          <div className="relative">
+            <motion.div
+              className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] flex items-center justify-center shadow-2xl"
+              animate={isSuccess ? {} : { boxShadow: ['0 0 30px rgba(251, 146, 60, 0.2)', '0 0 50px rgba(251, 146, 60, 0.3)', '0 0 30px rgba(251, 146, 60, 0.2)'] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <motion.svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                animate={isSuccess ? { scale: [1, 0, 0] } : {}}
+              >
+                {isSuccess ? (
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="white" />
+                ) : (
+                  <>
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </>
+                )}
+              </motion.svg>
+            </motion.div>
+            
+            {/* Glow ring */}
+            <motion.div
+              className="absolute inset-0 rounded-3xl"
+              style={{ background: 'transparent', border: '1px solid rgba(251, 146, 60, 0.3)' }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
           </div>
         </motion.div>
 
         {/* Greeting */}
-        <motion.h1
-          className="text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] via-[#FFD700] to-[#FFAB91] mb-4"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
-        >
-          {passwordGateConfig.greeting}
-        </motion.h1>
-        
-        <motion.p className="text-[#FFE4C4] text-lg mb-8 opacity-80">
-          {passwordGateConfig.subtitle}
-        </motion.p>
+        <motion.div className="text-center mb-10">
+          <motion.h1
+            className="text-4xl md:text-5xl font-light mb-3 text-gradient"
+            style={{ fontFamily: "'Great Vibes', cursive" }}
+          >
+            {passwordGateConfig.greeting}
+          </motion.h1>
+          
+          <motion.p className="text-[#A8A29E] text-sm tracking-wide">
+            {passwordGateConfig.subtitle}
+          </motion.p>
+        </motion.div>
 
         {/* Password Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            animate={{ scale: isFocused ? 1.02 : 1 }}
+            transition={{ duration: 0.2 }}
+          >
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder="Enter secret code"
               className={cn(
-                "w-64 md:w-80 px-6 py-4 rounded-full bg-white/10 border-2 text-center text-white text-xl tracking-widest placeholder:text-white/30 focus:outline-none transition-all duration-300",
-                error ? "border-red-400" : "border-[#FFAB91]/50 focus:border-[#FF6B35]"
+                "w-full px-6 py-4 rounded-2xl bg-white/[0.03] backdrop-blur-xl border text-center text-white text-lg tracking-[0.3em] placeholder:text-[#78716C] placeholder:tracking-normal focus:outline-none transition-all duration-300",
+                error 
+                  ? "border-red-500/50" 
+                  : isFocused 
+                    ? "border-[#FB923C]/50 shadow-[0_0_30px_rgba(251,146,60,0.15)]" 
+                    : "border-white/10"
               )}
             />
-          </div>
+            
+            {/* Input glow effect */}
+            {isFocused && (
+              <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                style={{
+                  background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, transparent 50%)',
+                }}
+              />
+            )}
+          </motion.div>
 
           {/* Error Message */}
           <AnimatePresence>
@@ -179,7 +208,7 @@ export default function PasswordGate() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="text-[#FFAB91] text-sm"
+                className="text-[#FB923C] text-sm text-center"
               >
                 {error}
               </motion.p>
@@ -189,26 +218,38 @@ export default function PasswordGate() {
           {/* Submit Button */}
           <motion.button
             type="submit"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-white font-semibold text-lg shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-300"
+            whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(234, 88, 12, 0.3)' }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#EA580C] to-[#F59E0B] text-white font-medium text-base shadow-lg shadow-orange-500/20 transition-all duration-300"
           >
-            <span className="flex items-center gap-2">
-              <Heart className="w-5 h-5" />
+            <span className="flex items-center justify-center gap-3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
               {passwordGateConfig.buttonText}
             </span>
           </motion.button>
         </form>
+        
+        {/* Subtle hint */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
+          className="text-center text-[#57534E] text-xs mt-8"
+        >
+          Made with love, for you
+        </motion.p>
       </motion.div>
 
       <style jsx>{`
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
-          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-          20%, 40%, 60%, 80% { transform: translateX(5px); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+          20%, 40%, 60%, 80% { transform: translateX(4px); }
         }
         .animate-shake {
-          animation: shake 0.5s ease-in-out;
+          animation: shake 0.4s ease-in-out;
         }
       `}</style>
     </div>

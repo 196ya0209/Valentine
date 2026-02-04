@@ -11,8 +11,8 @@ const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[#1A0A00] via-[#2D1408] to-[#1A0A00]">
-      {/* Aurora background */}
+    <section className="relative w-full h-screen overflow-hidden bg-[#0C0A09]">
+      {/* Ambient Background */}
       <div className="aurora-bg" />
       
       {/* 3D Scene with particle name */}
@@ -20,26 +20,31 @@ export default function Hero() {
       
       {/* Content overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-        {/* Subtitle */}
+        {/* Subtitle - Elegant */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="text-[#FFAB91] text-xl md:text-2xl mb-4"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
+          transition={{ delay: 2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-[#A8A29E] text-lg md:text-xl tracking-[0.2em] uppercase font-light mb-8"
         >
           {heroConfig.subtitle}
         </motion.p>
         
         {/* Spacer for the 3D name */}
-        <div className="h-32 md:h-48" />
+        <div className="h-24 md:h-32" />
         
         {/* Occasion */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.5, duration: 1 }}
-          className="text-white text-2xl md:text-4xl font-light tracking-wide"
+          transition={{ delay: 2.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-2xl md:text-4xl font-light tracking-wide"
+          style={{ 
+            fontFamily: "'Great Vibes', cursive",
+            background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
         >
           {heroConfig.occasion}
         </motion.h2>
@@ -49,31 +54,31 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 3, duration: 1 }}
-          className="text-[#FFE4C4]/60 text-sm md:text-base mt-4"
+          className="text-[#78716C] text-sm md:text-base mt-6 tracking-wide"
         >
           {heroConfig.tagline}
         </motion.p>
       </div>
       
-      {/* Sparkle effects with orange theme */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(50)].map((_, i) => (
+      {/* Subtle particle effects */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 rounded-full"
+            className="absolute w-1 h-1 rounded-full bg-[#FB923C]"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              backgroundColor: i % 3 === 0 ? '#FF6B35' : i % 3 === 1 ? '#FFD700' : '#FFFFFF',
             }}
             animate={{
-              opacity: [0, 1, 0],
+              opacity: [0, 0.6, 0],
               scale: [0, 1, 0],
             }}
             transition={{
-              duration: 2 + Math.random() * 2,
+              duration: 3 + Math.random() * 2,
               repeat: Infinity,
-              delay: Math.random() * 3,
+              delay: Math.random() * 5,
+              ease: "easeInOut"
             }}
           />
         ))}
@@ -84,20 +89,21 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 4 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center"
       >
         <motion.p
-          className="text-white/50 text-sm mb-2"
-          animate={{ opacity: [0.5, 1, 0.5] }}
+          className="text-[#57534E] text-xs tracking-widest uppercase mb-3"
+          animate={{ opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          Scroll to explore our story
+          Scroll to explore
         </motion.p>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="p-2 rounded-full border border-[#44403C]"
         >
-          <ChevronDown className="w-6 h-6 text-[#FF6B35]" />
+          <ChevronDown className="w-4 h-4 text-[#78716C]" />
         </motion.div>
       </motion.div>
     </section>

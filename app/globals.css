@@ -1,39 +1,44 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary Orange Romantic Colors */
-  --deep-sunset: #FF4500;
-  --romantic-orange: #FF6B35;
-  --soft-peach: #FFAB91;
-  --blush-coral: #FFE4C4;
-  --cream: #FFF8F0;
+  /* Modern Warm Palette - Sophisticated & Elegant */
+  --primary-amber: #F59E0B;
+  --primary-orange: #EA580C;
+  --accent-coral: #FB923C;
+  --accent-rose: #F43F5E;
+  --accent-gold: #D97706;
   
-  /* Warm Sunset Colors */
-  --sunset-red: #FF6347;
-  --sunset-gold: #FFD700;
-  --sunset-pink: #FF7F7F;
-  --sunset-purple: #9B59B6;
+  /* Sunset Gradient Colors */
+  --sunset-warm: #FBBF24;
+  --sunset-deep: #DC2626;
+  --sunset-soft: #FCD34D;
   
-  /* Accent Colors */
-  --gold: #FFD700;
-  --champagne: #F7E7CE;
-  --warm-amber: #FFBF00;
+  /* Neutral Warm Tones */
+  --warm-50: #FFFBEB;
+  --warm-100: #FEF3C7;
+  --warm-200: #FDE68A;
+  --warm-800: #92400E;
+  --warm-900: #78350F;
   
-  /* Dark Theme with Orange Tint */
-  --dark-romantic: #1A0A00;
-  --dark-sunset: #2D1408;
+  /* Dark Theme - Rich & Deep */
+  --dark-base: #0C0A09;
+  --dark-elevated: #1C1917;
+  --dark-surface: #292524;
+  --dark-border: #44403C;
   
-  /* Particle Colors */
-  --particle-glow: #FF6B35;
-  --particle-core: #FFFFFF;
+  /* Glass Effects */
+  --glass-white: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-glow: rgba(251, 146, 60, 0.2);
   
   /* Text Colors */
-  --text-primary: #2D1408;
-  --text-secondary: #5C3D2D;
-  --text-light: #FFFFFF;
+  --text-primary: #FAFAF9;
+  --text-secondary: #A8A29E;
+  --text-muted: #78716C;
+  --text-accent: #FB923C;
   
-  --background: #1A0A00;
-  --foreground: #FFFFFF;
+  --background: #0C0A09;
+  --foreground: #FAFAF9;
   
   /* Font families */
   --font-romantic: 'Great Vibes', cursive;
@@ -51,9 +56,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Aurora Background */
+/* Modern Aurora Background - More Subtle & Sophisticated */
 .aurora-bg {
   position: fixed;
   top: 0;
@@ -63,59 +70,73 @@ body {
   pointer-events: none;
   z-index: 0;
   background: 
-    radial-gradient(ellipse at 20% 20%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 30%, rgba(255, 127, 80, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 70%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 30% 90%, rgba(255, 99, 71, 0.08) 0%, transparent 50%);
-  animation: aurora-shift 15s ease-in-out infinite;
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(251, 146, 60, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(234, 88, 12, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 50% 80%, rgba(217, 119, 6, 0.05) 0%, transparent 50%);
+  animation: aurora-drift 20s ease-in-out infinite;
 }
 
-@keyframes aurora-shift {
+@keyframes aurora-drift {
   0%, 100% {
-    background: 
-      radial-gradient(ellipse at 20% 20%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 30%, rgba(255, 127, 80, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 70%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at 30% 90%, rgba(255, 99, 71, 0.08) 0%, transparent 50%);
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
-  33% {
-    background: 
-      radial-gradient(ellipse at 70% 30%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 20% 60%, rgba(255, 127, 80, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at 40% 20%, rgba(255, 99, 71, 0.08) 0%, transparent 50%);
-  }
-  66% {
-    background: 
-      radial-gradient(ellipse at 40% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 20%, rgba(255, 127, 80, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 20% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 40%, rgba(255, 99, 71, 0.08) 0%, transparent 50%);
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05) translateY(-2%);
   }
 }
 
-/* Custom scrollbar */
+/* Glass Morphism Effects */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Noise Texture Overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.015;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Custom scrollbar - Minimal */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--dark-romantic);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--romantic-orange), var(--soft-peach));
-  border-radius: 4px;
+  background: rgba(251, 146, 60, 0.3);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--soft-peach), var(--romantic-orange));
+  background: rgba(251, 146, 60, 0.5);
 }
 
 /* Selection */
 ::selection {
-  background: var(--soft-peach);
-  color: var(--text-primary);
+  background: rgba(251, 146, 60, 0.3);
+  color: #FAFAF9;
 }
 
 /* Smooth transitions */
@@ -123,91 +144,132 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Animation utilities */
+/* Modern Animation Utilities */
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.2),
+                0 0 40px rgba(251, 146, 60, 0.1);
   }
-  50% {
-    box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+  50% { 
+    box-shadow: 0 0 30px rgba(251, 146, 60, 0.3),
+                0 0 60px rgba(251, 146, 60, 0.15);
   }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  14% { transform: scale(1.1); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.1); }
-  70% { transform: scale(1); }
+  10% { transform: scale(1.05); }
+  20% { transform: scale(1); }
+  30% { transform: scale(1.08); }
+  50% { transform: scale(1); }
 }
 
-@keyframes glow-pulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 30px rgba(255, 165, 0, 0.8));
-  }
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
 }
 
 .animate-shimmer {
   background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
+  animation: shimmer 3s linear infinite;
 }
 
 .animate-heartbeat {
-  animation: heartbeat 1.5s ease-in-out infinite;
+  animation: heartbeat 2s ease-in-out infinite;
 }
 
-.animate-glow-pulse {
-  animation: glow-pulse 2s ease-in-out infinite;
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
 }
 
-/* Cloud transition */
-.cloud-transition {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 171, 145, 0.1) 0%,
-    rgba(255, 107, 53, 0.05) 50%,
-    transparent 100%
-  );
+/* Gradient Text Utility */
+.text-gradient {
+  background: linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Sunset gradient */
+.text-gradient-warm {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 50%, #FB923C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section Dividers */
+.section-divider {
+  background: linear-gradient(90deg, transparent, rgba(251, 146, 60, 0.3), transparent);
+  height: 1px;
+}
+
+/* Modern Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 10px 40px rgba(234, 88, 12, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card-modern {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-modern:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(251, 146, 60, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}
+
+/* Sunset gradient - Modern */
 .sunset-gradient {
   background: linear-gradient(
     180deg,
-    #FF6347 0%,
-    #FF7F50 20%,
-    #FFA500 40%,
-    #FFD700 60%,
-    #87CEEB 80%,
-    #4169E1 100%
+    #EA580C 0%,
+    #F59E0B 25%,
+    #FBBF24 50%,
+    #FCD34D 75%,
+    #FEF3C7 100%
   );
 }

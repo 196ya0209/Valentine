@@ -4,6 +4,7 @@
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { petNamesData } from '@/config/petNames'
+import { X, Sparkles } from 'lucide-react'
 
 interface PetName {
   name: string
@@ -20,30 +21,32 @@ export default function PetNamesGalaxy() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#0A0A1A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden"
     >
-      {/* Star background */}
+      {/* Subtle star background */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(100)].map((_, i) => (
+        {[...Array(50)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute w-[2px] h-[2px] bg-white/40 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.5, 1, 0.5],
+              opacity: [0.2, 0.6, 0.2],
             }}
             transition={{
-              duration: 2 + Math.random() * 3,
+              duration: 3 + Math.random() * 2,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: Math.random() * 3,
             }}
           />
         ))}
       </div>
+      
+      {/* Aurora */}
+      <div className="aurora-bg opacity-20" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Header */}
@@ -53,54 +56,53 @@ export default function PetNamesGalaxy() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+            All The Names I Call You
+          </motion.p>
+          
           <h2
-            className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            className="text-5xl md:text-7xl mb-4"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
           >
             {petNamesData.title}
           </h2>
-          <p className="text-white/60 text-lg">
+          
+          <p className="text-[#A8A29E] text-lg">
             {petNamesData.subtitle}
           </p>
+          
+          <div className="section-divider w-24 mx-auto mt-6" />
         </motion.div>
 
         {/* Categories */}
-        <div className="space-y-12">
+        <div className="space-y-16 max-w-5xl mx-auto">
           {petNamesData.categories.map((category, categoryIndex) => (
             <motion.div
               key={categoryIndex}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
+              transition={{ duration: 0.6, delay: categoryIndex * 0.15 }}
             >
-              <h3 className="text-2xl md:text-3xl text-white mb-6 text-center">
+              <h3 className="text-lg text-[#A8A29E] mb-6 text-center tracking-wide">
                 {category.title}
               </h3>
               
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-3">
                 {category.names.map((name, nameIndex) => (
                   <motion.button
                     key={nameIndex}
                     onClick={() => setSelectedName(name)}
-                    className="px-6 py-3 rounded-full bg-gradient-to-r from-[#E63946]/20 to-[#FF69B4]/20 border border-[#FFB4C2]/30 text-white hover:border-[#FF69B4] transition-all duration-300"
-                    whileHover={{ 
-                      scale: 1.1,
-                      boxShadow: '0 0 30px rgba(255, 105, 180, 0.5)'
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={{
-                      y: [0, -5, 0],
-                    }}
-                    transition={{
-                      y: {
-                        duration: 3,
-                        repeat: Infinity,
-                        delay: nameIndex * 0.3,
-                      }
-                    }}
+                    className="group px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-white hover:border-[#FB923C]/40 hover:bg-[#FB923C]/10 transition-all duration-300"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <span className="mr-2">{name.emoji}</span>
-                    {name.name}
+                    <span className="mr-2 group-hover:scale-110 inline-block transition-transform">{name.emoji}</span>
+                    <span className="text-sm font-medium">{name.name}</span>
                   </motion.button>
                 ))}
               </div>
@@ -116,27 +118,66 @@ export default function PetNamesGalaxy() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-8"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-8"
             onClick={() => setSelectedName(null)}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, rotateY: -30 }}
-              animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-              exit={{ scale: 0.8, opacity: 0, rotateY: 30 }}
-              className="bg-gradient-to-br from-[#2D0A0A] to-[#1A0A0A] p-8 rounded-2xl max-w-md w-full border border-[#FFB4C2]/30"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-gradient-to-br from-[#1C1917] to-[#0C0A09] p-8 md:p-10 rounded-3xl max-w-md w-full border border-white/[0.08] relative"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedName(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] transition-colors"
+              >
+                <X className="w-4 h-4 text-[#78716C]" />
+              </button>
+              
               <div className="text-center">
-                <span className="text-6xl mb-4 block">{selectedName.emoji}</span>
-                <h3 className="text-3xl text-[#FFB4C2] mb-4" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                <motion.div
+                  className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/10 flex items-center justify-center text-4xl"
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {selectedName.emoji}
+                </motion.div>
+                
+                <h3 
+                  className="text-3xl mb-6" 
+                  style={{ 
+                    fontFamily: "'Great Vibes', cursive",
+                    background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
                   {selectedName.name}
                 </h3>
-                <p className="text-white/80 mb-6">
-                  <span className="text-[#FF69B4]">Meaning:</span> {selectedName.meaning}
-                </p>
-                <p className="text-white/60 text-sm">
-                  <span className="text-[#FFB4C2]">Used when:</span> {selectedName.usedWhen}
-                </p>
+                
+                <div className="space-y-4 text-left">
+                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                    <p className="text-[#78716C] text-xs uppercase tracking-wider mb-1 flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" />
+                      Meaning
+                    </p>
+                    <p className="text-white/80 text-sm">
+                      {selectedName.meaning}
+                    </p>
+                  </div>
+                  
+                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                    <p className="text-[#78716C] text-xs uppercase tracking-wider mb-1">
+                      Used When
+                    </p>
+                    <p className="text-[#FB923C] text-sm">
+                      {selectedName.usedWhen}
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>

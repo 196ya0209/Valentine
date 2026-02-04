@@ -4,17 +4,27 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { achievements } from '@/config/achievements'
+import { Trophy, Lock, Check, Star } from 'lucide-react'
 
-const rarityColors = {
-  Epic: 'from-purple-500 to-purple-700',
-  Legendary: 'from-yellow-500 to-orange-500',
-  Mythic: 'from-pink-500 to-red-500'
-}
-
-const rarityGlow = {
-  Epic: 'shadow-purple-500/30',
-  Legendary: 'shadow-yellow-500/30',
-  Mythic: 'shadow-pink-500/30'
+const rarityStyles = {
+  Epic: {
+    bg: 'from-violet-500/20 to-purple-600/20',
+    border: 'border-violet-500/30',
+    text: 'text-violet-400',
+    glow: 'shadow-violet-500/20'
+  },
+  Legendary: {
+    bg: 'from-amber-500/20 to-orange-600/20',
+    border: 'border-amber-500/30',
+    text: 'text-amber-400',
+    glow: 'shadow-amber-500/20'
+  },
+  Mythic: {
+    bg: 'from-rose-500/20 to-pink-600/20',
+    border: 'border-rose-500/30',
+    text: 'text-rose-400',
+    glow: 'shadow-rose-500/20'
+  }
 }
 
 export default function Achievements() {
@@ -24,8 +34,11 @@ export default function Achievements() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#0A0A1A] to-[#1A0A0A] overflow-hidden"
+      className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden"
     >
+      {/* Background */}
+      <div className="aurora-bg opacity-20" />
+      
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <motion.div
@@ -34,79 +47,108 @@ export default function Achievements() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
+          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+            Unlocked
+          </motion.p>
+          
           <h2
-            className="text-5xl md:text-7xl text-[#FFB4C2] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            className="text-5xl md:text-7xl mb-4"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
           >
             {achievements.title}
           </h2>
+          
+          <div className="section-divider w-24 mx-auto mt-6" />
         </motion.div>
 
         {/* Her Achievements */}
-        <div className="max-w-5xl mx-auto mb-16">
-          <h3 className="text-2xl text-white mb-8 text-center">✨ Legendary Achievements</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {achievements.herAchievements.map((achievement, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
-                animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                className={`relative p-6 rounded-2xl bg-gradient-to-br ${rarityColors[achievement.rarity as keyof typeof rarityColors]} shadow-lg ${rarityGlow[achievement.rarity as keyof typeof rarityGlow]}`}
-              >
-                {/* Rarity badge */}
-                <div className="absolute -top-2 -right-2 px-3 py-1 rounded-full bg-black/50 text-xs font-bold text-white">
-                  {achievement.rarity}
-                </div>
-                
-                <h4 className="text-xl text-white font-bold mb-2">{achievement.title}</h4>
-                <p className="text-white/80 text-sm">{achievement.description}</p>
-                
-                {/* Shine effect */}
+        <div className="max-w-5xl mx-auto mb-20">
+          <div className="flex items-center justify-center gap-2 mb-10">
+            <Trophy className="w-5 h-5 text-[#FB923C]" />
+            <h3 className="text-lg text-[#A8A29E] tracking-wide">Legendary Achievements</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {achievements.herAchievements.map((achievement, index) => {
+              const style = rarityStyles[achievement.rarity as keyof typeof rarityStyles]
+              return (
                 <motion.div
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                  initial={{ x: '-100%' }}
-                  animate={{ x: '200%' }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatDelay: 3,
-                    delay: index * 0.5
-                  }}
-                />
-              </motion.div>
-            ))}
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`relative p-6 rounded-2xl bg-gradient-to-br ${style.bg} border ${style.border} backdrop-blur-xl shadow-lg ${style.glow} overflow-hidden group`}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                >
+                  {/* Rarity badge */}
+                  <div className={`absolute top-4 right-4 px-2 py-1 rounded-full bg-black/30 text-xs font-medium ${style.text}`}>
+                    {achievement.rarity}
+                  </div>
+                  
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center`}>
+                      <Star className={`w-5 h-5 ${style.text}`} />
+                    </div>
+                    <div className="flex-1 pt-1">
+                      <h4 className="text-base text-white font-medium">{achievement.title}</h4>
+                    </div>
+                  </div>
+                  
+                  <p className="text-white/60 text-sm pl-[52px]">{achievement.description}</p>
+                  
+                  {/* Subtle shine on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  />
+                </motion.div>
+              )
+            })}
           </div>
         </div>
 
-        {/* Relationship Achievements */}
-        <div className="max-w-3xl mx-auto">
-          <h3 className="text-2xl text-white mb-8 text-center">💕 Our Milestones</h3>
-          <div className="space-y-4">
+        {/* Relationship Milestones */}
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-10">
+            <Check className="w-5 h-5 text-[#FB923C]" />
+            <h3 className="text-lg text-[#A8A29E] tracking-wide">Our Milestones</h3>
+          </div>
+          
+          <div className="space-y-3">
             {achievements.relationshipAchievements.map((milestone, index) => {
               const isUnlocked = milestone.status === 'Unlocked'
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -30 }}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  className={`flex items-center justify-between p-4 rounded-xl border ${
+                  transition={{ duration: 0.4, delay: 0.5 + index * 0.08 }}
+                  className={`flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${
                     isUnlocked 
-                      ? 'bg-white/10 border-[#FFB4C2]/30' 
-                      : 'bg-white/5 border-white/10 opacity-60'
+                      ? 'bg-white/[0.03] border-[#FB923C]/20 hover:border-[#FB923C]/40' 
+                      : 'bg-white/[0.01] border-white/[0.05] opacity-50'
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      isUnlocked ? 'bg-[#E63946]' : 'bg-white/20'
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                      isUnlocked 
+                        ? 'bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/20' 
+                        : 'bg-white/[0.03]'
                     }`}>
-                      {isUnlocked ? '✓' : '🔒'}
+                      {isUnlocked 
+                        ? <Check className="w-5 h-5 text-[#FB923C]" />
+                        : <Lock className="w-4 h-4 text-[#57534E]" />
+                      }
                     </div>
-                    <span className="text-white font-medium">{milestone.title}</span>
+                    <span className={`font-medium ${isUnlocked ? 'text-white' : 'text-[#78716C]'}`}>
+                      {milestone.title}
+                    </span>
                   </div>
-                  <span className={`text-sm ${isUnlocked ? 'text-[#FFB4C2]' : 'text-white/50'}`}>
+                  <span className={`text-sm ${isUnlocked ? 'text-[#FB923C]' : 'text-[#57534E]'}`}>
                     {milestone.status}
                   </span>
                 </motion.div>

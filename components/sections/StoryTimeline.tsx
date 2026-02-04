@@ -4,6 +4,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ourLoveStory } from '@/config/storyData'
+import { ChevronDown, Sparkles } from 'lucide-react'
 
 interface Chapter {
   id: number
@@ -19,199 +20,150 @@ interface Chapter {
   gifts?: { item: string; emoji: string }[]
 }
 
-function InteractiveCard({ chapter, index }: { chapter: Chapter; index: number }) {
+function StoryCard({ chapter, index }: { chapter: Chapter; index: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [isExpanded, setIsExpanded] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
   
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative"
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div
-        className={`relative p-6 md:p-8 rounded-3xl backdrop-blur-md cursor-pointer overflow-hidden ${
-          chapter.isSpecial
-            ? 'bg-gradient-to-br from-[#FF6B35]/30 to-[#FFD700]/20 border-2 border-[#FFD700]/50'
-            : chapter.isFinal
-            ? 'bg-gradient-to-br from-[#FF6B35]/30 to-[#FFAB91]/20 border-2 border-[#FF6B35]/50'
-            : 'bg-white/5 border border-white/20'
+        className={`relative rounded-3xl backdrop-blur-xl cursor-pointer overflow-hidden transition-all duration-500 ${
+          chapter.isSpecial || chapter.isFinal
+            ? 'bg-gradient-to-br from-[#FB923C]/10 to-[#F59E0B]/5 border border-[#FB923C]/20'
+            : 'bg-white/[0.02] border border-white/[0.06] hover:border-[#FB923C]/20'
         }`}
         whileHover={{ 
-          scale: 1.02, 
-          boxShadow: '0 20px 60px rgba(255, 107, 53, 0.3)',
-          borderColor: 'rgba(255, 107, 53, 0.6)'
+          y: -4,
+          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.4)'
         }}
-        whileTap={{ scale: 0.98 }}
         onClick={() => setIsExpanded(!isExpanded)}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        transition={{ duration: 0.3 }}
+        layout
       >
-        {/* Animated background glow */}
+        {/* Gradient overlay on hover */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-[#FF6B35]/10 to-transparent rounded-3xl"
-          animate={{
-            opacity: isHovered ? 0.5 : 0.2,
-          }}
-          transition={{ duration: 0.3 }}
+          className="absolute inset-0 bg-gradient-to-br from-[#FB923C]/5 to-transparent opacity-0 transition-opacity duration-500"
+          whileHover={{ opacity: 1 }}
         />
         
-        {/* Floating particles effect on hover */}
-        <AnimatePresence>
-          {isHovered && (
-            <>
-              {[...Array(6)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full bg-[#FF6B35]"
-                  initial={{ 
-                    x: 0, y: 0, 
-                    opacity: 0,
-                    scale: 0
-                  }}
-                  animate={{ 
-                    x: (Math.random() - 0.5) * 100, 
-                    y: (Math.random() - 0.5) * 100,
-                    opacity: [0, 0.8, 0],
-                    scale: [0, 1, 0]
-                  }}
-                  exit={{ opacity: 0 }}
-                  transition={{ 
-                    duration: 1.5, 
-                    delay: i * 0.1,
-                    repeat: Infinity
-                  }}
-                  style={{
-                    left: '50%',
-                    top: '50%'
-                  }}
-                />
-              ))}
-            </>
-          )}
-        </AnimatePresence>
-        
-        {/* Header with emoji and title */}
-        <div className="flex items-start gap-4 mb-4 relative z-10">
-          <motion.span 
-            className="text-4xl md:text-5xl"
-            animate={{ 
-              rotate: isHovered ? [0, -10, 10, 0] : 0,
-              scale: isHovered ? 1.1 : 1
-            }}
-            transition={{ duration: 0.5 }}
-          >
-            {chapter.emoji}
-          </motion.span>
-          <div className="flex-1">
-            <h3 className="text-xl md:text-2xl text-white font-semibold mb-1">
-              {chapter.title}
-            </h3>
-            <motion.p 
-              className="text-[#FFAB91] text-sm flex items-center gap-2"
-              animate={{ color: isHovered ? '#FFD700' : '#FFAB91' }}
+        <div className="relative p-6 md:p-8">
+          {/* Header */}
+          <div className="flex items-start gap-4 mb-4">
+            <motion.div 
+              className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#EA580C]/20 to-[#F59E0B]/10 flex items-center justify-center text-2xl flex-shrink-0"
+              whileHover={{ scale: 1.1, rotate: 5 }}
             >
-              <span>For my</span>
-              <span className="font-semibold">{chapter.petName}</span>
-              <span className="animate-heartbeat inline-block">💕</span>
-            </motion.p>
+              {chapter.emoji}
+            </motion.div>
+            
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg md:text-xl text-white font-medium mb-1 line-clamp-1">
+                {chapter.title}
+              </h3>
+              <p className="text-[#A8A29E] text-sm">
+                For my <span className="text-[#FB923C] font-medium">{chapter.petName}</span>
+              </p>
+            </div>
+            
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-8 h-8 rounded-full bg-white/[0.03] flex items-center justify-center flex-shrink-0"
+            >
+              <ChevronDown className="w-4 h-4 text-[#78716C]" />
+            </motion.div>
           </div>
           
-          {/* Expand indicator */}
-          <motion.div
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            className="text-[#FF6B35] text-xl"
-          >
-            ▼
-          </motion.div>
+          {/* Preview text */}
+          {!isExpanded && (
+            <p className="text-[#78716C] text-sm line-clamp-2 pl-16">
+              {chapter.content.substring(0, 120)}...
+            </p>
+          )}
+          
+          {/* Expanded content */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4 pl-16 space-y-4">
+                  <p className="text-[#E7E5E4] leading-relaxed text-base">
+                    {chapter.content}
+                  </p>
+                  
+                  {/* Highlight */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FB923C]/10 border border-[#FB923C]/20"
+                  >
+                    <Sparkles className="w-4 h-4 text-[#FB923C]" />
+                    <span className="text-[#FBBF24] text-sm font-medium">
+                      {chapter.highlight}
+                    </span>
+                  </motion.div>
+                  
+                  {/* Rituals grid */}
+                  {chapter.rituals && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="grid grid-cols-3 md:grid-cols-6 gap-2 pt-4"
+                    >
+                      {chapter.rituals.map((ritual, i) => (
+                        <motion.div
+                          key={i}
+                          className="flex flex-col items-center p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#FB923C]/20 transition-all duration-300"
+                          whileHover={{ y: -2, scale: 1.02 }}
+                        >
+                          <span className="text-xl mb-1">{ritual.emoji}</span>
+                          <span className="text-xs text-[#A8A29E] text-center">{ritual.item}</span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                  
+                  {/* Gifts grid */}
+                  {chapter.gifts && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="grid grid-cols-3 md:grid-cols-6 gap-2 pt-4"
+                    >
+                      {chapter.gifts.map((gift, i) => (
+                        <motion.div
+                          key={i}
+                          className="flex flex-col items-center p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#FB923C]/20 transition-all duration-300"
+                          whileHover={{ y: -2, scale: 1.02 }}
+                        >
+                          <span className="text-xl mb-1">{gift.emoji}</span>
+                          <span className="text-xs text-[#A8A29E] text-center">{gift.item}</span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         
-        {/* Expandable content */}
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="overflow-hidden"
-            >
-              {/* Content */}
-              <p className="text-white/90 leading-relaxed mb-4 relative z-10 text-base md:text-lg">
-                {chapter.content}
-              </p>
-              
-              {/* Highlight badge */}
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF6B35]/30 border border-[#FF6B35]/50"
-              >
-                <span className="text-lg">✨</span>
-                <span className="text-[#FFD700] text-sm font-medium">
-                  {chapter.highlight}
-                </span>
-              </motion.div>
-              
-              {/* Rituals grid */}
-              {chapter.rituals && (
-                <motion.div 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-6 grid grid-cols-3 md:grid-cols-6 gap-3"
-                >
-                  {chapter.rituals.map((ritual, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex flex-col items-center p-3 rounded-xl bg-gradient-to-br from-white/10 to-white/5 hover:from-[#FF6B35]/20 hover:to-[#FFD700]/10 transition-all duration-300"
-                      whileHover={{ scale: 1.1, y: -5 }}
-                    >
-                      <span className="text-2xl mb-1">{ritual.emoji}</span>
-                      <span className="text-xs text-white/80 text-center">{ritual.item}</span>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-              
-              {/* Gifts grid */}
-              {chapter.gifts && (
-                <motion.div 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-6 grid grid-cols-3 md:grid-cols-6 gap-3"
-                >
-                  {chapter.gifts.map((gift, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex flex-col items-center p-3 rounded-xl bg-gradient-to-br from-white/10 to-white/5 hover:from-[#FF6B35]/20 hover:to-[#FFD700]/10 transition-all duration-300"
-                      whileHover={{ scale: 1.1, y: -5 }}
-                    >
-                      <span className="text-2xl mb-1">{gift.emoji}</span>
-                      <span className="text-xs text-white/80 text-center">{gift.item}</span>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        {/* Preview text when collapsed */}
-        {!isExpanded && (
-          <motion.p 
-            className="text-white/60 text-sm line-clamp-2 relative z-10"
-            animate={{ opacity: isHovered ? 1 : 0.6 }}
-          >
-            {chapter.content.substring(0, 100)}...
-          </motion.p>
+        {/* Special indicator line */}
+        {(chapter.isSpecial || chapter.isFinal) && (
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FB923C]/50 to-transparent" />
         )}
       </motion.div>
     </motion.div>
@@ -220,35 +172,19 @@ function InteractiveCard({ chapter, index }: { chapter: Chapter; index: number }
 
 export default function StoryTimeline() {
   return (
-    <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A00] via-[#2D1408] to-[#1A0A00] overflow-hidden">
-      {/* Aurora background */}
-      <div className="aurora-bg opacity-50" />
+    <section className="relative py-32 md:py-40 bg-[#0C0A09] overflow-hidden">
+      {/* Background */}
+      <div className="aurora-bg opacity-30" />
       
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-2xl opacity-20"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.1, 0.3, 0.1],
-              rotate: [0, 10, -10, 0],
-            }}
-            transition={{
-              duration: 5 + Math.random() * 5,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          >
-            {i % 3 === 0 ? '🧡' : i % 3 === 1 ? '🔥' : '✨'}
-          </motion.div>
-        ))}
-      </div>
+      {/* Subtle grid pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(251, 146, 60, 0.1) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(251, 146, 60, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}
+      />
       
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Section header */}
@@ -256,31 +192,36 @@ export default function StoryTimeline() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16 md:mb-24"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-20"
         >
+          <motion.p className="text-[#78716C] text-sm tracking-[0.3em] uppercase mb-4">
+            Our Journey
+          </motion.p>
+          
           <motion.h2
-            className="text-5xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] via-[#FFD700] to-[#FFAB91] mb-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
-            animate={{
-              backgroundPosition: ['0%', '100%', '0%'],
+            className="text-5xl md:text-7xl mb-6"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
             }}
-            transition={{ duration: 5, repeat: Infinity }}
           >
             {ourLoveStory.title}
           </motion.h2>
-          <p className="text-white/60 text-lg md:text-xl">
+          
+          <p className="text-[#A8A29E] text-lg max-w-md mx-auto">
             {ourLoveStory.subtitle}
           </p>
-          <p className="text-[#FFAB91] text-sm mt-2">
-            ✨ Tap each card to explore our memories ✨
-          </p>
+          
+          <div className="section-divider w-24 mx-auto mt-8" />
         </motion.div>
         
-        {/* Interactive Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {ourLoveStory.chapters.map((chapter, index) => (
-            <InteractiveCard key={chapter.id} chapter={chapter as Chapter} index={index} />
+            <StoryCard key={chapter.id} chapter={chapter as Chapter} index={index} />
           ))}
         </div>
       </div>
