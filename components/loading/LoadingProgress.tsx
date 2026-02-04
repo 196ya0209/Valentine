@@ -12,12 +12,12 @@ export default function LoadingProgress({ progress }: LoadingProgressProps) {
     <div className="w-64 md:w-80 relative">
       {/* Background bar */}
       <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-        {/* Progress fill with rose petal effect */}
+        {/* Progress fill with orange gradient */}
         <motion.div
           className="h-full rounded-full relative overflow-hidden"
           style={{
             width: `${progress}%`,
-            background: 'linear-gradient(90deg, #E63946, #FF69B4, #FFB4C2)'
+            background: 'linear-gradient(90deg, #FF6B35, #FFD700, #FFAB91)'
           }}
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
@@ -39,7 +39,7 @@ export default function LoadingProgress({ progress }: LoadingProgressProps) {
         </motion.div>
       </div>
 
-      {/* Rose petal decorations */}
+      {/* Heart decoration - orange themed */}
       <motion.span
         className="absolute -top-6 text-xl"
         style={{ left: `${Math.min(progress, 95)}%` }}
@@ -52,7 +52,7 @@ export default function LoadingProgress({ progress }: LoadingProgressProps) {
           repeat: Infinity
         }}
       >
-        🌹
+        🧡
       </motion.span>
     </div>
   )

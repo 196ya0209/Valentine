@@ -17,16 +17,16 @@ export default function HeartLoader() {
       }}
     >
       <div className="w-24 h-24 relative">
-        {/* Heart SVG */}
+        {/* Heart SVG - Orange theme */}
         <svg
           viewBox="0 0 32 29.6"
           className="w-full h-full"
         >
           <defs>
             <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#E63946" />
-              <stop offset="50%" stopColor="#FF69B4" />
-              <stop offset="100%" stopColor="#FFB4C2" />
+              <stop offset="0%" stopColor="#FF6B35" />
+              <stop offset="50%" stopColor="#FFD700" />
+              <stop offset="100%" stopColor="#FFAB91" />
             </linearGradient>
             <filter id="heartGlow">
               <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -44,11 +44,11 @@ export default function HeartLoader() {
           />
         </svg>
         
-        {/* Glow effect */}
+        {/* Glow effect - Orange theme */}
         <motion.div
           className="absolute inset-0 rounded-full blur-xl"
           style={{
-            background: 'radial-gradient(circle, rgba(255,105,180,0.4) 0%, transparent 70%)'
+            background: 'radial-gradient(circle, rgba(255,107,53,0.4) 0%, transparent 70%)'
           }}
           animate={{
             opacity: [0.5, 1, 0.5],

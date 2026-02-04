@@ -44,8 +44,11 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-[#1A0A0A] via-[#2D0A0A] to-[#1A0A0A]"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-[#1A0A00] via-[#2D1408] to-[#1A0A00]"
     >
+      {/* Aurora effect */}
+      <div className="aurora-bg" />
+      
       {/* Pulsing Heart */}
       <HeartLoader />
 
@@ -55,7 +58,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
-        className="text-[#FFB4C2] text-lg md:text-xl text-center px-8 mt-8 mb-12"
+        className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] via-[#FFD700] to-[#FFAB91] text-lg md:text-xl text-center px-8 mt-8 mb-12"
         style={{ fontFamily: "'Great Vibes', cursive", fontSize: '1.5rem' }}
       >
         {loadingMessages[messageIndex]}

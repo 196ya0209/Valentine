@@ -2,6 +2,21 @@
 export const heroConfig = {
   name: "Amritha",
   
+  // Pet names for heartbeat animation cycle
+  petNamesForAnimation: [
+    "Amritha",
+    "Mookie",
+    "My Doll",
+    "Kissmiss QT",
+    "Cute",
+    "Brilliant",
+    "Idol",
+    "Minion",
+    "Artist",
+    "Cook",
+    "Hot"
+  ],
+  
   // CRITICAL: Big, Bold, Romantic Cursive Font
   font: {
     family: "'Great Vibes', cursive",
@@ -14,18 +29,18 @@ export const heroConfig = {
     }
   },
   
-  // Particle text settings
+  // Particle text settings - now with orange theme
   particles: {
     count: 8000,
     color: {
-      primary: "#FFB4C2",
-      glow: "#FF69B4",
+      primary: "#FFAB91",
+      glow: "#FF6B35",
       core: "#FFFFFF"
     },
     glow: {
       enabled: true,
       intensity: 2,
-      color: "#FF69B4"
+      color: "#FF6B35"
     },
     float: {
       enabled: true,

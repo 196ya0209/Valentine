@@ -11,7 +11,10 @@ const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[#1A0A0A] via-[#2D0A0A] to-[#1A0A0A]">
+    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[#1A0A00] via-[#2D1408] to-[#1A0A00]">
+      {/* Aurora background */}
+      <div className="aurora-bg" />
+      
       {/* 3D Scene with particle name */}
       <Scene />
       
@@ -22,7 +25,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 1 }}
-          className="text-[#FFB4C2] text-xl md:text-2xl mb-4"
+          className="text-[#FFAB91] text-xl md:text-2xl mb-4"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           {heroConfig.subtitle}
@@ -46,21 +49,22 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 3, duration: 1 }}
-          className="text-[#FFDDE1]/60 text-sm md:text-base mt-4"
+          className="text-[#FFE4C4]/60 text-sm md:text-base mt-4"
         >
           {heroConfig.tagline}
         </motion.p>
       </div>
       
-      {/* Sparkle effects */}
+      {/* Sparkle effects with orange theme */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(50)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute w-1 h-1 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              backgroundColor: i % 3 === 0 ? '#FF6B35' : i % 3 === 1 ? '#FFD700' : '#FFFFFF',
             }}
             animate={{
               opacity: [0, 1, 0],
@@ -93,7 +97,7 @@ export default function Hero() {
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
-          <ChevronDown className="w-6 h-6 text-[#FFB4C2]" />
+          <ChevronDown className="w-6 h-6 text-[#FF6B35]" />
         </motion.div>
       </motion.div>
     </section>

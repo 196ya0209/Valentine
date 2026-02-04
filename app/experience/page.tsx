@@ -7,7 +7,10 @@ import { useAuthStore } from '@/stores/authStore'
 import LoadingScreen from '@/components/loading/LoadingScreen'
 import SmoothScroll from '@/components/SmoothScroll'
 import AudioControls from '@/components/audio/AudioControls'
+import AudioManager from '@/components/audio/AudioManager'
 import HeartCloudTransition from '@/components/transitions/HeartCloudTransition'
+import CloudDivider from '@/components/transitions/CloudDivider'
+import FloatingModels from '@/components/3d/FloatingModels'
 import Hero from '@/components/sections/Hero'
 import StoryTimeline from '@/components/sections/StoryTimeline'
 import PhotoGallery from '@/components/sections/PhotoGallery'
@@ -23,6 +26,7 @@ import DreamDestinations from '@/components/sections/DreamDestinations'
 import OurSoundtrack from '@/components/sections/OurSoundtrack'
 import VirtualGarden from '@/components/sections/VirtualGarden'
 import FinalMessage from '@/components/sections/FinalMessage'
+import SunsetEnding from '@/components/sections/SunsetEnding'
 
 export default function ExperiencePage() {
   const router = useRouter()
@@ -46,7 +50,10 @@ export default function ExperiencePage() {
   }
 
   return (
-    <main className="relative bg-[#1A0A0A] min-h-screen">
+    <main className="relative bg-[#1A0A00] min-h-screen">
+      {/* Aurora background */}
+      <div className="aurora-bg" />
+      
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreen onComplete={handleLoadingComplete} />
@@ -54,24 +61,48 @@ export default function ExperiencePage() {
       </AnimatePresence>
 
       {showContent && (
-        <SmoothScroll>
-          <Hero />
-          <StoryTimeline />
-          <PhotoGallery />
-          <PetNamesGalaxy />
-          <ReasonsILoveYou />
-          <LoveLetter />
-          <Games />
-          <OurFuture />
-          <Achievements />
-          <VirtualGifts />
-          <Stargazing />
-          <DreamDestinations />
-          <OurSoundtrack />
-          <VirtualGarden />
-          <FinalMessage />
-          <AudioControls />
-        </SmoothScroll>
+        <>
+          {/* Floating models throughout the page */}
+          <FloatingModels />
+          
+          {/* Audio Manager */}
+          <AudioManager />
+          
+          <SmoothScroll>
+            <Hero />
+            <CloudDivider />
+            <StoryTimeline />
+            <CloudDivider />
+            <PhotoGallery />
+            <CloudDivider />
+            <PetNamesGalaxy />
+            <CloudDivider />
+            <ReasonsILoveYou />
+            <CloudDivider />
+            <LoveLetter />
+            <CloudDivider />
+            <Games />
+            <CloudDivider />
+            <OurFuture />
+            <CloudDivider />
+            <Achievements />
+            <CloudDivider />
+            <VirtualGifts />
+            <CloudDivider />
+            <Stargazing />
+            <CloudDivider />
+            <DreamDestinations />
+            <CloudDivider />
+            <OurSoundtrack />
+            <CloudDivider />
+            <VirtualGarden />
+            <CloudDivider />
+            <FinalMessage />
+            <CloudDivider />
+            <SunsetEnding />
+            <AudioControls />
+          </SmoothScroll>
+        </>
       )}
 
       <HeartCloudTransition isActive={false} />

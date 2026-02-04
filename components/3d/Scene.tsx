@@ -18,8 +18,8 @@ export default function Scene() {
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#FF69B4" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#FFB4C2" />
+          <pointLight position={[10, 10, 10]} intensity={1} color="#FF6B35" />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#FFAB91" />
           
           <ParticleNameAmritha />
           <FloatingHearts />
@@ -34,12 +34,15 @@ export default function Scene() {
           </EffectComposer>
           
           <OrbitControls
-            enableZoom={false}
+            enableZoom={true}
             enablePan={false}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={Math.PI / 2}
+            maxPolarAngle={Math.PI / 1.5}
+            minPolarAngle={Math.PI / 3}
+            minDistance={8}
+            maxDistance={25}
             autoRotate
             autoRotateSpeed={0.3}
+            zoomSpeed={0.5}
           />
           
           <Preload all />

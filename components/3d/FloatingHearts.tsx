@@ -73,6 +73,9 @@ export default function FloatingHearts() {
     })
   })
 
+  // Orange theme colors
+  const colors = ['#FF6B35', '#FFD700', '#FFAB91']
+
   return (
     <group ref={groupRef}>
       {hearts.map((heart, i) => (
@@ -84,7 +87,7 @@ export default function FloatingHearts() {
         >
           <shapeGeometry args={[heartShape]} />
           <meshBasicMaterial
-            color={i % 3 === 0 ? '#E63946' : i % 3 === 1 ? '#FF69B4' : '#FFB4C2'}
+            color={colors[i % 3]}
             transparent
             opacity={0.6}
             side={THREE.DoubleSide}

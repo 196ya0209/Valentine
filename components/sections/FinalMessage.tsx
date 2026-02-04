@@ -1,15 +1,31 @@
 // components/sections/FinalMessage.tsx
 'use client'
 
-import { useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { finalMessage } from '@/config/finalMessage'
 import confetti from 'canvas-confetti'
+
+const romanticTexts = [
+  "You are my sunshine ☀️",
+  "My heart belongs to you 💕",
+  "Forever & Always 💫",
+  "My soulmate 🧡",
+  "The love of my life 💛"
+]
 
 export default function FinalMessage() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
   const [celebrated, setCelebrated] = useState(false)
+  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTextIndex((prev) => (prev + 1) % romanticTexts.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   const triggerCelebration = () => {
     if (celebrated) return
@@ -37,13 +53,13 @@ export default function FinalMessage() {
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        colors: ['#E63946', '#FFB4C2', '#FF69B4', '#FFFFFF']
+        colors: ['#FF6B35', '#FFD700', '#FFAB91', '#FFFFFF']
       })
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        colors: ['#E63946', '#FFB4C2', '#FF69B4', '#FFFFFF']
+        colors: ['#FF6B35', '#FFD700', '#FFAB91', '#FFFFFF']
       })
     }, 250)
   }
@@ -51,11 +67,14 @@ export default function FinalMessage() {
   return (
     <section 
       ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A0A] via-[#2D0A0A] to-[#1A0A0A] overflow-hidden min-h-screen flex items-center justify-center"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-[#1A0A00] via-[#2D1408] to-[#1A0A00] overflow-hidden min-h-screen flex items-center justify-center"
     >
+      {/* Aurora background */}
+      <div className="aurora-bg" />
+
       {/* Floating hearts background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(40)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute text-3xl md:text-4xl"
@@ -66,8 +85,9 @@ export default function FinalMessage() {
             animate={{
               y: [0, -100, 0],
               x: [0, Math.random() * 50 - 25, 0],
-              opacity: [0.2, 0.5, 0.2],
+              opacity: [0.2, 0.6, 0.2],
               scale: [1, 1.2, 1],
+              rotate: [0, 20, -20, 0],
             }}
             transition={{
               duration: 5 + Math.random() * 5,
@@ -75,24 +95,41 @@ export default function FinalMessage() {
               delay: Math.random() * 5,
             }}
           >
-            ❤️
+            {i % 4 === 0 ? '🧡' : i % 4 === 1 ? '💛' : i % 4 === 2 ? '❤️' : '✨'}
           </motion.div>
         ))}
       </div>
 
       <div className="container mx-auto px-4 md:px-8 relative z-10 text-center">
-        {/* Title */}
-        <motion.h2
+        {/* Title with animated text cycling */}
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl text-white mb-8"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
+          className="mb-8"
         >
-          {finalMessage.title}
-        </motion.h2>
+          <h2
+            className="text-4xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] via-[#FFD700] to-[#FFAB91] mb-4"
+            style={{ fontFamily: "'Great Vibes', cursive" }}
+          >
+            {finalMessage.title}
+          </h2>
+          
+          {/* Cycling romantic texts */}
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={currentTextIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="text-xl md:text-2xl text-[#FFAB91]"
+            >
+              {romanticTexts[currentTextIndex]}
+            </motion.p>
+          </AnimatePresence>
+        </motion.div>
 
-        {/* Big Name */}
+        {/* Big Name with enhanced animation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -100,23 +137,24 @@ export default function FinalMessage() {
           className="relative mb-12"
         >
           <motion.h1
-            className="text-6xl md:text-9xl lg:text-[12rem] font-bold"
+            className="text-6xl md:text-9xl lg:text-[12rem] font-bold relative z-10"
             style={{ 
               fontFamily: "'Great Vibes', cursive",
-              background: 'linear-gradient(135deg, #E63946 0%, #FF69B4 50%, #FFB4C2 100%)',
+              background: 'linear-gradient(135deg, #FF6B35 0%, #FFD700 50%, #FFAB91 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              textShadow: '0 0 80px rgba(255, 105, 180, 0.5)'
+              backgroundSize: '200% 200%',
             }}
             animate={{
-              textShadow: [
-                '0 0 80px rgba(255, 105, 180, 0.3)',
-                '0 0 120px rgba(255, 105, 180, 0.6)',
-                '0 0 80px rgba(255, 105, 180, 0.3)',
+              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+              filter: [
+                'drop-shadow(0 0 30px rgba(255, 107, 53, 0.5))',
+                'drop-shadow(0 0 60px rgba(255, 215, 0, 0.7))',
+                'drop-shadow(0 0 30px rgba(255, 107, 53, 0.5))',
               ]
             }}
             transition={{
-              duration: 3,
+              duration: 4,
               repeat: Infinity,
               ease: 'easeInOut'
             }}
@@ -124,22 +162,46 @@ export default function FinalMessage() {
             {finalMessage.name}
           </motion.h1>
           
-          {/* Glow effect */}
+          {/* Heartbeat animation around name */}
           <motion.div
-            className="absolute inset-0 -z-10 blur-3xl opacity-30"
+            className="absolute inset-0 -z-10"
             style={{
-              background: 'radial-gradient(circle, #FF69B4 0%, transparent 70%)'
+              background: 'radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, transparent 70%)'
             }}
             animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.6, 0.3],
             }}
             transition={{
-              duration: 4,
+              duration: 1.5,
               repeat: Infinity,
               ease: 'easeInOut'
             }}
           />
+
+          {/* Sparkles around the name */}
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute text-2xl md:text-3xl"
+              style={{
+                left: `${50 + 45 * Math.cos((i / 12) * Math.PI * 2)}%`,
+                top: `${50 + 45 * Math.sin((i / 12) * Math.PI * 2)}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0.5, 1.2, 0.5],
+              }}
+              transition={{
+                duration: 2,
+                delay: i * 0.15,
+                repeat: Infinity,
+              }}
+            >
+              ✨
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Main Message */}
@@ -147,7 +209,7 @@ export default function FinalMessage() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-xl md:text-3xl text-[#FFB4C2] mb-12 max-w-2xl mx-auto"
+          className="text-xl md:text-3xl text-[#FFAB91] mb-12 max-w-2xl mx-auto"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           {finalMessage.mainMessage}
@@ -161,8 +223,8 @@ export default function FinalMessage() {
           onClick={triggerCelebration}
           className={`px-12 py-6 rounded-full text-xl md:text-2xl font-semibold transition-all duration-500 ${
             celebrated
-              ? 'bg-gradient-to-r from-[#FFB4C2] to-[#FFDDE1] text-[#E63946]'
-              : 'bg-gradient-to-r from-[#E63946] to-[#FF69B4] text-white hover:shadow-[0_0_50px_rgba(255,105,180,0.5)]'
+              ? 'bg-gradient-to-r from-[#FFAB91] to-[#FFE4C4] text-[#FF6B35]'
+              : 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-white hover:shadow-[0_0_50px_rgba(255,107,53,0.5)]'
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -175,34 +237,34 @@ export default function FinalMessage() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 1.2 }}
-          className="mt-16 text-2xl md:text-3xl text-[#FFB4C2]"
+          className="mt-16 text-2xl md:text-3xl text-[#FFAB91]"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           {finalMessage.signature}
         </motion.p>
 
-        {/* Roses at bottom */}
+        {/* Roses and Hearts at bottom */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="mt-12 flex justify-center gap-4"
+          className="mt-12 flex justify-center gap-4 flex-wrap"
         >
-          {[...Array(5)].map((_, i) => (
+          {['🌹', '🧡', '🌹', '💛', '🌹', '❤️', '🌹'].map((emoji, i) => (
             <motion.span
               key={i}
               className="text-4xl md:text-5xl"
               animate={{
-                y: [0, -10, 0],
-                rotate: [-5, 5, -5],
+                y: [0, -15, 0],
+                rotate: emoji === '🌹' ? [-5, 5, -5] : 0,
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: i * 0.2,
+                delay: i * 0.15,
               }}
             >
-              🌹
+              {emoji}
             </motion.span>
           ))}
         </motion.div>

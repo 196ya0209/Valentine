@@ -1,7 +1,7 @@
 // components/3d/ParticleNameAmritha.tsx
 'use client'
 
-import { useRef, useMemo, useEffect, useState } from 'react'
+import { useRef, useMemo, useEffect, useState, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { heroConfig } from '@/config/heroConfig'
@@ -9,30 +9,58 @@ import { heroConfig } from '@/config/heroConfig'
 export default function ParticleNameAmritha() {
   const particlesRef = useRef<THREE.Points>(null)
   const [targetPositions, setTargetPositions] = useState<Float32Array | null>(null)
+  const [currentNameIndex, setCurrentNameIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   
   const particleCount = heroConfig.particles.count
-  const name = heroConfig.name
+  const petNames = heroConfig.petNamesForAnimation || [heroConfig.name]
+  const currentName = petNames[currentNameIndex]
   
-  // Generate initial random positions
-  const { positions, colors } = useMemo(() => {
+  // Heart shape function for particles
+  const heartShape = useCallback((t: number): [number, number] => {
+    const x = 16 * Math.pow(Math.sin(t), 3)
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)
+    return [x * 0.02, y * 0.02]
+  }, [])
+
+  // Generate initial random positions with heart particles
+  const { positions, colors, heartParticleIndices } = useMemo(() => {
     const positions = new Float32Array(particleCount * 3)
     const colors = new Float32Array(particleCount * 3)
+    const heartParticleIndices: number[] = []
     const color1 = new THREE.Color(heroConfig.particles.color.primary)
     const color2 = new THREE.Color(heroConfig.particles.color.glow)
     const color3 = new THREE.Color(heroConfig.particles.color.core)
+    const heartColor = new THREE.Color('#FF6B35')
     
     for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 30
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 15
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10
-      
-      const t = Math.random()
-      const color = t < 0.33 ? color1 : t < 0.66 ? color2 : color3
-      colors[i * 3] = color.r
-      colors[i * 3 + 1] = color.g
-      colors[i * 3 + 2] = color.b
+      // Make some particles heart-shaped at random positions
+      if (i % 150 === 0) {
+        heartParticleIndices.push(i)
+        const angle = (i / 150) * Math.PI * 2
+        const [hx, hy] = [
+          16 * Math.pow(Math.sin(angle), 3) * 0.02,
+          (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * 0.02
+        ]
+        positions[i * 3] = hx + (Math.random() - 0.5) * 20
+        positions[i * 3 + 1] = hy + (Math.random() - 0.5) * 10
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 5
+        colors[i * 3] = heartColor.r
+        colors[i * 3 + 1] = heartColor.g
+        colors[i * 3 + 2] = heartColor.b
+      } else {
+        positions[i * 3] = (Math.random() - 0.5) * 30
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 15
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+        
+        const t = Math.random()
+        const color = t < 0.33 ? color1 : t < 0.66 ? color2 : color3
+        colors[i * 3] = color.r
+        colors[i * 3 + 1] = color.g
+        colors[i * 3 + 2] = color.b
+      }
     }
-    return { positions, colors }
+    return { positions, colors, heartParticleIndices }
   }, [particleCount])
 
   // Create geometry
@@ -43,11 +71,11 @@ export default function ParticleNameAmritha() {
     return geo
   }, [positions, colors])
 
-  useEffect(() => {
-    // Create text shape for particles
+  // Generate target positions based on text
+  const generateTextPositions = useCallback((name: string) => {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    if (!ctx) return null
 
     canvas.width = 1024
     canvas.height = 256
@@ -56,7 +84,9 @@ export default function ParticleNameAmritha() {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     
     ctx.fillStyle = '#FFFFFF'
-    ctx.font = `bold 140px Georgia, serif`
+    // Adjust font size based on name length
+    const fontSize = name.length > 10 ? 80 : name.length > 7 ? 100 : 140
+    ctx.font = `bold ${fontSize}px Georgia, serif`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillText(name, canvas.width / 2, canvas.height / 2)
@@ -87,8 +117,27 @@ export default function ParticleNameAmritha() {
       }
     }
     
-    setTargetPositions(targets)
-  }, [particleCount, name])
+    return targets
+  }, [particleCount])
+
+  // Update target positions when name changes
+  useEffect(() => {
+    const targets = generateTextPositions(currentName)
+    if (targets) {
+      setTargetPositions(targets)
+      setIsTransitioning(true)
+      setTimeout(() => setIsTransitioning(false), 1000)
+    }
+  }, [currentName, generateTextPositions])
+
+  // Cycle through pet names with heartbeat effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentNameIndex((prev) => (prev + 1) % petNames.length)
+    }, 3500) // Change name every 3.5 seconds with heartbeat
+
+    return () => clearInterval(interval)
+  }, [petNames.length])
 
   useFrame((state) => {
     if (!particlesRef.current || !targetPositions) return
@@ -98,11 +147,17 @@ export default function ParticleNameAmritha() {
     const positionAttr = geo.attributes.position as THREE.BufferAttribute
     const positionArray = positionAttr.array as Float32Array
     
+    // Heartbeat scale effect
+    const heartbeatScale = 1 + Math.sin(time * 4) * 0.03
+    
     for (let i = 0; i < particleCount * 3; i += 3) {
-      // Lerp towards target
-      positionArray[i] += (targetPositions[i] - positionArray[i]) * 0.02
-      positionArray[i + 1] += (targetPositions[i + 1] - positionArray[i + 1]) * 0.02
-      positionArray[i + 2] += (targetPositions[i + 2] - positionArray[i + 2]) * 0.02
+      // Lerp speed varies based on transition state
+      const lerpSpeed = isTransitioning ? 0.03 : 0.02
+      
+      // Lerp towards target with heartbeat effect
+      positionArray[i] += (targetPositions[i] * heartbeatScale - positionArray[i]) * lerpSpeed
+      positionArray[i + 1] += (targetPositions[i + 1] * heartbeatScale - positionArray[i + 1]) * lerpSpeed
+      positionArray[i + 2] += (targetPositions[i + 2] - positionArray[i + 2]) * lerpSpeed
       
       // Add floating animation
       if (heroConfig.particles.float.enabled) {

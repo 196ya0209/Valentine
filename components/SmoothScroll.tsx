@@ -2,7 +2,8 @@
 'use client'
 
 import { useEffect, useRef, ReactNode } from 'react'
-import Lenis from '@studio-freight/lenis'
+import Lenis from 'lenis'
+import 'lenis/dist/lenis.css'
 
 interface SmoothScrollProps {
   children: ReactNode
@@ -36,5 +37,5 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     }
   }, [])
 
-  return <>{children}</>
+  return <div className="lenis-scroll-container">{children}</div>
 }
