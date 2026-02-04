@@ -130,11 +130,11 @@ export default function ParticleNameAmritha() {
     }
   }, [currentName, generateTextPositions])
 
-  // Cycle through pet names with heartbeat effect
+  // Cycle through pet names with heartbeat effect - slower transition
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentNameIndex((prev) => (prev + 1) % petNames.length)
-    }, 3500) // Change name every 3.5 seconds with heartbeat
+    }, 6000) // Change name every 6 seconds - slow enough to read full name
 
     return () => clearInterval(interval)
   }, [petNames.length])

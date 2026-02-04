@@ -59,42 +59,62 @@ export default function PasswordGate() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0C0A09]">
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: 'linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%)' }}
+      >
         <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] animate-pulse" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0C0A09] relative overflow-hidden">
-      {/* Ambient Background */}
-      <div className="aurora-bg" />
-      
-      {/* Subtle floating orbs */}
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%)' }}
+    >
+      {/* Decorative circles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        <div 
+          className="absolute w-[500px] h-[500px] rounded-full opacity-40"
+          style={{
+            background: 'radial-gradient(circle, rgba(253,186,116,0.6) 0%, transparent 70%)',
+            top: '-15%',
+            right: '-10%',
+          }}
+        />
+        <div 
+          className="absolute w-[400px] h-[400px] rounded-full opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(251,191,36,0.5) 0%, transparent 70%)',
+            bottom: '-10%',
+            left: '-5%',
+          }}
+        />
+        
+        {/* Floating hearts */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full blur-3xl"
+            className="absolute text-2xl"
             style={{ 
-              width: `${150 + i * 50}px`,
-              height: `${150 + i * 50}px`,
-              left: `${10 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-              background: `radial-gradient(circle, rgba(251, 146, 60, ${0.04 - i * 0.005}) 0%, transparent 70%)`
+              left: `${10 + i * 12}%`,
+              top: `${20 + (i % 4) * 20}%`,
             }}
             animate={{
               y: [0, -30, 0],
-              x: [0, 20, 0],
-              scale: [1, 1.1, 1],
+              opacity: [0.2, 0.5, 0.2],
+              scale: [0.8, 1.1, 0.8],
             }}
             transition={{
-              duration: 8 + i * 2,
+              duration: 6 + i,
               repeat: Infinity,
               ease: "easeInOut",
               delay: i * 0.5
             }}
-          />
+          >
+            💛
+          </motion.div>
         ))}
       </div>
 
@@ -114,8 +134,8 @@ export default function PasswordGate() {
         >
           <div className="relative">
             <motion.div
-              className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] flex items-center justify-center shadow-2xl"
-              animate={isSuccess ? {} : { boxShadow: ['0 0 30px rgba(251, 146, 60, 0.2)', '0 0 50px rgba(251, 146, 60, 0.3)', '0 0 30px rgba(251, 146, 60, 0.2)'] }}
+              className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#EA580C] to-[#F59E0B] flex items-center justify-center shadow-2xl shadow-orange-300/50"
+              animate={isSuccess ? {} : { boxShadow: ['0 0 30px rgba(251, 146, 60, 0.3)', '0 0 50px rgba(251, 146, 60, 0.4)', '0 0 30px rgba(251, 146, 60, 0.3)'] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
               <motion.svg
@@ -143,7 +163,7 @@ export default function PasswordGate() {
             {/* Glow ring */}
             <motion.div
               className="absolute inset-0 rounded-3xl"
-              style={{ background: 'transparent', border: '1px solid rgba(251, 146, 60, 0.3)' }}
+              style={{ background: 'transparent', border: '2px solid rgba(251, 146, 60, 0.4)' }}
               animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -153,13 +173,18 @@ export default function PasswordGate() {
         {/* Greeting */}
         <motion.div className="text-center mb-10">
           <motion.h1
-            className="text-4xl md:text-5xl font-light mb-3 text-gradient"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            className="text-4xl md:text-5xl font-light mb-3"
+            style={{ 
+              fontFamily: "'Great Vibes', cursive",
+              background: 'linear-gradient(135deg, #EA580C 0%, #D97706 50%, #B45309 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
           >
             {passwordGateConfig.greeting}
           </motion.h1>
           
-          <motion.p className="text-[#A8A29E] text-sm tracking-wide">
+          <motion.p className="text-sm tracking-wide" style={{ color: '#92400E' }}>
             {passwordGateConfig.subtitle}
           </motion.p>
         </motion.div>
@@ -179,26 +204,15 @@ export default function PasswordGate() {
               onBlur={() => setIsFocused(false)}
               placeholder="Enter secret code"
               className={cn(
-                "w-full px-6 py-4 rounded-2xl bg-white/[0.03] backdrop-blur-xl border text-center text-white text-lg tracking-[0.3em] placeholder:text-[#78716C] placeholder:tracking-normal focus:outline-none transition-all duration-300",
+                "w-full px-6 py-4 rounded-2xl bg-white/80 backdrop-blur-xl border text-center text-lg tracking-[0.3em] placeholder:tracking-normal focus:outline-none transition-all duration-300",
                 error 
                   ? "border-red-500/50" 
                   : isFocused 
-                    ? "border-[#FB923C]/50 shadow-[0_0_30px_rgba(251,146,60,0.15)]" 
-                    : "border-white/10"
+                    ? "border-[#FB923C] shadow-[0_0_30px_rgba(251,146,60,0.2)]" 
+                    : "border-[#FED7AA]"
               )}
+              style={{ color: '#78350F' }}
             />
-            
-            {/* Input glow effect */}
-            {isFocused && (
-              <motion.div
-                className="absolute inset-0 rounded-2xl pointer-events-none"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                style={{
-                  background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, transparent 50%)',
-                }}
-              />
-            )}
           </motion.div>
 
           {/* Error Message */}
@@ -208,7 +222,7 @@ export default function PasswordGate() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="text-[#FB923C] text-sm text-center"
+                className="text-[#EA580C] text-sm text-center font-medium"
               >
                 {error}
               </motion.p>
@@ -218,9 +232,9 @@ export default function PasswordGate() {
           {/* Submit Button */}
           <motion.button
             type="submit"
-            whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(234, 88, 12, 0.3)' }}
+            whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(234, 88, 12, 0.4)' }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#EA580C] to-[#F59E0B] text-white font-medium text-base shadow-lg shadow-orange-500/20 transition-all duration-300"
+            className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#EA580C] to-[#F59E0B] text-white font-medium text-base shadow-lg shadow-orange-400/40 transition-all duration-300"
           >
             <span className="flex items-center justify-center gap-3">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -236,7 +250,8 @@ export default function PasswordGate() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="text-center text-[#57534E] text-xs mt-8"
+          className="text-center text-xs mt-8"
+          style={{ color: '#92400E' }}
         >
           Made with love, for you
         </motion.p>

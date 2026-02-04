@@ -50,8 +50,13 @@ export default function ExperiencePage() {
   }
 
   return (
-    <main className="relative bg-[#1A0A00] min-h-screen">
-      {/* Aurora background */}
+    <main 
+      className="relative min-h-screen"
+      style={{
+        background: 'linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%)'
+      }}
+    >
+      {/* Light aurora background */}
       <div className="aurora-bg" />
       
       <AnimatePresence mode="wait">

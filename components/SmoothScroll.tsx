@@ -14,13 +14,19 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.8, // Slower, dreamier scroll
+      easing: (t) => {
+        // Custom easing for ultra-smooth feel
+        return t < 0.5 
+          ? 4 * t * t * t 
+          : 1 - Math.pow(-2 * t + 2, 3) / 2
+      },
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.8, // Slower wheel for dreamy feel
+      touchMultiplier: 1.5,
+      infinite: false,
     })
 
     lenisRef.current = lenis
@@ -32,10 +38,21 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
     requestAnimationFrame(raf)
 
+    // Make lenis available globally for integration with other libraries
+    window.lenis = lenis
+
     return () => {
       lenis.destroy()
+      delete window.lenis
     }
   }, [])
 
   return <div className="lenis-scroll-container">{children}</div>
+}
+
+// Extend Window interface for TypeScript
+declare global {
+  interface Window {
+    lenis?: Lenis
+  }
 }
