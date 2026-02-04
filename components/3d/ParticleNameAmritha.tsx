@@ -6,69 +6,15 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { heroConfig } from '@/config/heroConfig'
 
-// Create heart-shaped texture (only in browser)
-function createHeartTexture(): THREE.Texture | null {
-  if (typeof window === 'undefined') return null
-  
-  const canvas = document.createElement('canvas')
-  const size = 64
-  canvas.width = size
-  canvas.height = size
-  const ctx = canvas.getContext('2d')
-  
-  if (!ctx) return null
-  
-  // Clear canvas
-  ctx.clearRect(0, 0, size, size)
-  
-  // Draw heart shape
-  ctx.fillStyle = '#ffffff'
-  ctx.beginPath()
-  
-  const x = size / 2
-  const y = size / 2
-  const scale = size / 32
-  
-  // Heart path
-  ctx.moveTo(x, y + 4 * scale)
-  ctx.bezierCurveTo(x, y + 3 * scale, x - 5 * scale, y - 3 * scale, x - 10 * scale, y - 3 * scale)
-  ctx.bezierCurveTo(x - 16 * scale, y - 3 * scale, x - 16 * scale, y + 5 * scale, x - 16 * scale, y + 5 * scale)
-  ctx.bezierCurveTo(x - 16 * scale, y + 10 * scale, x - 10 * scale, y + 16 * scale, x, y + 20 * scale)
-  ctx.bezierCurveTo(x + 10 * scale, y + 16 * scale, x + 16 * scale, y + 10 * scale, x + 16 * scale, y + 5 * scale)
-  ctx.bezierCurveTo(x + 16 * scale, y + 5 * scale, x + 16 * scale, y - 3 * scale, x + 10 * scale, y - 3 * scale)
-  ctx.bezierCurveTo(x + 5 * scale, y - 3 * scale, x, y + 3 * scale, x, y + 4 * scale)
-  
-  ctx.closePath()
-  ctx.fill()
-  
-  // Add glow effect
-  ctx.shadowColor = '#ffffff'
-  ctx.shadowBlur = 8
-  ctx.fill()
-  
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.needsUpdate = true
-  return texture
-}
-
 export default function ParticleNameAmritha() {
   const particlesRef = useRef<THREE.Points>(null)
   const [targetPositions, setTargetPositions] = useState<Float32Array | null>(null)
   const [currentNameIndex, setCurrentNameIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [heartTexture, setHeartTexture] = useState<THREE.Texture | null>(null)
   
   const particleCount = heroConfig.particles.count
   const petNames = heroConfig.petNamesForAnimation || [heroConfig.name]
   const currentName = petNames[currentNameIndex]
-
-  // Create heart texture in useEffect (client-side only)
-  useEffect(() => {
-    const texture = createHeartTexture()
-    if (texture) {
-      setHeartTexture(texture)
-    }
-  }, [])
 
   // Generate initial random positions with heart particles
   const { positions, colors } = useMemo(() => {
@@ -80,26 +26,28 @@ export default function ParticleNameAmritha() {
     const heartColor = new THREE.Color('#E85D04')
     
     for (let i = 0; i < particleCount; i++) {
-      // Random starting positions
-      positions[i * 3] = (Math.random() - 0.5) * 30
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 15
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10
-      
-      // Color variation - more orange/burnt orange for hearts
-      const t = Math.random()
-      let color: THREE.Color
-      if (t < 0.4) {
-        color = heartColor // 40% burnt orange hearts
-      } else if (t < 0.6) {
-        color = color1 // 20% primary pink
-      } else if (t < 0.8) {
-        color = color2 // 20% glow pink
+      // Make some particles heart-colored at random positions
+      if (i % 150 === 0) {
+        const angle = (i / 150) * Math.PI * 2
+        const hx = 16 * Math.pow(Math.sin(angle), 3) * 0.02
+        const hy = (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * 0.02
+        positions[i * 3] = hx + (Math.random() - 0.5) * 20
+        positions[i * 3 + 1] = hy + (Math.random() - 0.5) * 10
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 5
+        colors[i * 3] = heartColor.r
+        colors[i * 3 + 1] = heartColor.g
+        colors[i * 3 + 2] = heartColor.b
       } else {
-        color = color3 // 20% core white
+        positions[i * 3] = (Math.random() - 0.5) * 30
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 15
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+        
+        const t = Math.random()
+        const color = t < 0.33 ? color1 : t < 0.66 ? color2 : color3
+        colors[i * 3] = color.r
+        colors[i * 3 + 1] = color.g
+        colors[i * 3 + 2] = color.b
       }
-      colors[i * 3] = color.r
-      colors[i * 3 + 1] = color.g
-      colors[i * 3 + 2] = color.b
     }
     return { positions, colors }
   }, [particleCount])
@@ -213,16 +161,12 @@ export default function ParticleNameAmritha() {
   return (
     <points ref={particlesRef} geometry={geometry}>
       <pointsMaterial
-        size={0.12}
+        size={0.05}
         vertexColors
         transparent
-        opacity={0.95}
+        opacity={0.9}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
-        map={heartTexture}
-        alphaMap={heartTexture}
-        alphaTest={0.01}
-        depthWrite={false}
       />
     </points>
   )

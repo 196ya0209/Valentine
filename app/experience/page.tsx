@@ -21,7 +21,7 @@ import Achievements from '@/components/sections/Achievements'
 import VirtualGifts from '@/components/sections/VirtualGifts'
 import Stargazing from '@/components/sections/Stargazing'
 import DreamDestinations from '@/components/sections/DreamDestinations'
-import OurSoundtrack from '@/components/sections/OurSoundtrack'
+
 import FinalMessage from '@/components/sections/FinalMessage'
 import SunsetEnding from '@/components/sections/SunsetEnding'
 
@@ -83,7 +83,6 @@ export default function ExperiencePage() {
             <VirtualGifts />
             <Stargazing />
             <DreamDestinations />
-            <OurSoundtrack />
             <FinalMessage />
             <SunsetEnding />
             <AudioControls />
