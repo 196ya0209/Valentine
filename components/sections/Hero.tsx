@@ -14,55 +14,55 @@ export default function Hero() {
     <section 
       className="relative w-full h-screen overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 30%, #FFE5D9 60%, #FFF8F0 100%)'
+        background: 'linear-gradient(180deg, #2C1810 0%, #3D2318 25%, #4A2C1C 50%, #2C1810 75%, #1A0F0A 100%)'
       }}
     >
-      {/* Decorative sun rays - top right */}
+      {/* Ambient glow effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute w-[600px] h-[600px] rounded-full"
+          className="absolute w-[800px] h-[800px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(232,93,4,0.12) 0%, rgba(255,155,133,0.08) 40%, transparent 70%)',
-            top: '-15%',
-            right: '-10%',
+            background: 'radial-gradient(circle, rgba(232,93,4,0.2) 0%, rgba(255,155,133,0.1) 40%, transparent 70%)',
+            top: '-20%',
+            right: '-20%',
           }}
-          animate={{ scale: [1, 1.1, 1] }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.9, 0.6] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        {/* Bottom left warm glow */}
+        <motion.div 
+          className="absolute w-[500px] h-[500px]"
+          style={{
+            background: 'radial-gradient(circle, rgba(232,93,4,0.15) 0%, rgba(255,155,133,0.05) 60%, transparent 80%)',
+            bottom: '-15%',
+            left: '-10%',
+            borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%',
+          }}
+          animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0], opacity: [0.5, 0.8, 0.5] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         
-        {/* Bottom left organic shape */}
-        <motion.div 
-          className="absolute w-[400px] h-[400px]"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,214,186,0.5) 0%, rgba(232,93,4,0.05) 60%, transparent 80%)',
-            bottom: '-10%',
-            left: '-5%',
-            borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%',
-          }}
-          animate={{ scale: [1, 1.05, 1], rotate: [0, 3, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        
-        {/* Sparkle accents */}
-        {[...Array(8)].map((_, i) => (
+        {/* Subtle sparkle accents */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute"
             style={{
-              left: `${15 + i * 10}%`,
+              left: `${15 + i * 12}%`,
               top: `${20 + (i % 3) * 25}%`,
             }}
             animate={{
-              opacity: [0.3, 1, 0.3],
-              scale: [0.8, 1.2, 0.8],
+              opacity: [0.2, 0.6, 0.2],
+              scale: [0.8, 1.1, 0.8],
             }}
             transition={{
-              duration: 3 + i * 0.5,
+              duration: 4 + i * 0.5,
               repeat: Infinity,
-              delay: i * 0.3,
+              delay: i * 0.4,
             }}
           >
-            <Sparkles className="w-4 h-4 text-[#E85D04]" style={{ opacity: 0.6 }} />
+            <Sparkles className="w-3 h-3" style={{ color: '#FF9B85', opacity: 0.7 }} />
           </motion.div>
         ))}
       </div>
@@ -80,7 +80,7 @@ export default function Hero() {
           className="text-sm md:text-base tracking-[0.3em] uppercase font-semibold mb-8"
           style={{ 
             fontFamily: "'Outfit', sans-serif",
-            color: '#D4622C',
+            color: '#FF9B85',
             letterSpacing: '3px'
           }}
         >
@@ -98,8 +98,9 @@ export default function Hero() {
           className="text-3xl md:text-5xl font-semibold tracking-wide"
           style={{ 
             fontFamily: "'Playfair Display', serif",
-            color: '#E85D04',
-            letterSpacing: '-0.5px'
+            color: '#FF9B85',
+            letterSpacing: '-0.5px',
+            textShadow: '0 0 40px rgba(232, 93, 4, 0.5)'
           }}
         >
           {heroConfig.occasion}
@@ -113,42 +114,42 @@ export default function Hero() {
           className="text-lg md:text-xl mt-6"
           style={{ 
             fontFamily: "'Pacifico', cursive",
-            color: '#8C7A6B'
+            color: 'rgba(255, 214, 186, 0.9)'
           }}
         >
           {heroConfig.tagline}
         </motion.p>
       </div>
       
-      {/* Subtle floating dots */}
+      {/* Subtle floating particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(15)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 rounded-full"
+            className="absolute w-1.5 h-1.5 rounded-full"
             style={{
-              left: `${5 + Math.random() * 90}%`,
-              top: `${5 + Math.random() * 90}%`,
+              left: `${10 + i * 7}%`,
+              top: `${15 + (i % 4) * 20}%`,
               background: i % 2 === 0 
-                ? 'rgba(232, 93, 4, 0.4)' 
-                : 'rgba(255, 155, 133, 0.5)',
+                ? 'rgba(255, 155, 133, 0.6)' 
+                : 'rgba(232, 93, 4, 0.5)',
             }}
             animate={{
-              opacity: [0, 0.8, 0],
-              scale: [0, 1.5, 0],
-              y: [-10, -40],
+              opacity: [0.2, 0.7, 0.2],
+              scale: [1, 1.5, 1],
+              y: [-5, -25],
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
+              duration: 5 + i * 0.5,
               repeat: Infinity,
-              delay: Math.random() * 4,
+              delay: i * 0.5,
               ease: "easeOut"
             }}
           />
         ))}
       </div>
       
-      {/* Scroll indicator - Orange themed */}
+      {/* Scroll indicator - warm themed */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -159,9 +160,9 @@ export default function Hero() {
           className="text-xs tracking-widest uppercase mb-3 font-medium"
           style={{ 
             fontFamily: "'Outfit', sans-serif",
-            color: '#8C7A6B'
+            color: 'rgba(255, 214, 186, 0.7)'
           }}
-          animate={{ opacity: [0.5, 1, 0.5] }}
+          animate={{ opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           Scroll to explore
@@ -171,11 +172,11 @@ export default function Hero() {
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="p-3 rounded-full"
           style={{ 
-            border: '2px solid rgba(232, 93, 4, 0.4)',
-            background: 'rgba(255, 251, 245, 0.8)'
+            border: '2px solid rgba(232, 93, 4, 0.5)',
+            background: 'rgba(44, 24, 16, 0.8)'
           }}
         >
-          <ChevronDown className="w-4 h-4" style={{ color: '#E85D04' }} />
+          <ChevronDown className="w-4 h-4" style={{ color: '#FF9B85' }} />
         </motion.div>
       </motion.div>
     </section>

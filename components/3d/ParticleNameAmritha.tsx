@@ -130,11 +130,11 @@ export default function ParticleNameAmritha() {
     }
   }, [currentName, generateTextPositions])
 
-  // Cycle through pet names with heartbeat effect - slower transition
+  // Cycle through pet names with heartbeat effect - 8 seconds total (5s to form + 3s pause)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentNameIndex((prev) => (prev + 1) % petNames.length)
-    }, 6000) // Change name every 6 seconds - slow enough to read full name
+    }, 8000) // 8 seconds: enough time to fully form (5s) + pause to read (3s)
 
     return () => clearInterval(interval)
   }, [petNames.length])
@@ -151,8 +151,8 @@ export default function ParticleNameAmritha() {
     const heartbeatScale = 1 + Math.sin(time * 4) * 0.03
     
     for (let i = 0; i < particleCount * 3; i += 3) {
-      // Lerp speed varies based on transition state
-      const lerpSpeed = isTransitioning ? 0.03 : 0.02
+      // Slower lerp speed for gradual text formation
+      const lerpSpeed = isTransitioning ? 0.015 : 0.01
       
       // Lerp towards target with heartbeat effect
       positionArray[i] += (targetPositions[i] * heartbeatScale - positionArray[i]) * lerpSpeed
@@ -161,8 +161,8 @@ export default function ParticleNameAmritha() {
       
       // Add floating animation
       if (heroConfig.particles.float.enabled) {
-        positionArray[i + 1] += Math.sin(time * heroConfig.particles.float.speed + i * 0.01) * 0.002
-        positionArray[i] += Math.cos(time * heroConfig.particles.float.speed * 0.5 + i * 0.01) * 0.001
+        positionArray[i + 1] += Math.sin(time * heroConfig.particles.float.speed + i * 0.01) * 0.001
+        positionArray[i] += Math.cos(time * heroConfig.particles.float.speed * 0.5 + i * 0.01) * 0.0005
       }
     }
     

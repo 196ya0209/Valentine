@@ -4,7 +4,7 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { dreamDestinations } from '@/config/destinations'
-import { MapPin, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { MapPin, X, ChevronLeft, ChevronRight, Search, Globe } from 'lucide-react'
 
 // Calculate rotation angle per place
 const ROTATION_PER_PLACE = 360 / dreamDestinations.places.length
@@ -17,6 +17,8 @@ export default function DreamDestinations() {
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [globeRotation, setGlobeRotation] = useState(0)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [autoRotate, setAutoRotate] = useState(true)
 
   // Helper function to get rotation for a specific index
   const getRotationForIndex = useCallback((index: number) => {
@@ -38,6 +40,7 @@ export default function DreamDestinations() {
   // Handle mouse/touch drag for globe rotation
   const handleDragStart = useCallback((clientX: number, clientY: number) => {
     setIsDragging(true)
+    setAutoRotate(false)
     setDragStart({ x: clientX, y: clientY })
   }, [])
 
@@ -82,12 +85,14 @@ export default function DreamDestinations() {
 
   // Navigate destinations
   const goToNext = () => {
+    setAutoRotate(false)
     const nextIndex = selectedPlace === null ? 0 : (selectedPlace + 1) % dreamDestinations.places.length
     setSelectedPlace(nextIndex)
     setGlobeRotation(getRotationForIndex(nextIndex))
   }
 
   const goToPrev = () => {
+    setAutoRotate(false)
     const prevIndex = selectedPlace === null 
       ? dreamDestinations.places.length - 1 
       : (selectedPlace - 1 + dreamDestinations.places.length) % dreamDestinations.places.length
@@ -95,12 +100,33 @@ export default function DreamDestinations() {
     setGlobeRotation(getRotationForIndex(prevIndex))
   }
 
+  // Filter places by search query
+  const filteredPlaces = useMemo(() => {
+    if (!searchQuery.trim()) return dreamDestinations.places
+    const query = searchQuery.toLowerCase()
+    return dreamDestinations.places.filter(
+      place => place.place.toLowerCase().includes(query) || 
+               place.reason.toLowerCase().includes(query)
+    )
+  }, [searchQuery])
+
+  // Handle search and go to first match
+  const handleSearchSelect = (placeIndex: number) => {
+    const originalIndex = dreamDestinations.places.findIndex(p => p === filteredPlaces[placeIndex])
+    if (originalIndex !== -1) {
+      setAutoRotate(false)
+      setSelectedPlace(originalIndex)
+      setGlobeRotation(getRotationForIndex(originalIndex))
+      setSearchQuery('')
+    }
+  }
+
   return (
     <section 
       ref={ref}
       className="relative py-24 md:py-32 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 30%, #FFE5D9 60%, #FFF8F0 100%)'
+        background: 'linear-gradient(180deg, #2C1810 0%, #3D2318 30%, #4A2C1C 60%, #2C1810 100%)'
       }}
     >
       <div className="container mx-auto px-4 md:px-8">
@@ -115,7 +141,7 @@ export default function DreamDestinations() {
             className="text-sm tracking-[0.3em] uppercase mb-4 font-semibold"
             style={{ 
               fontFamily: "'Outfit', sans-serif",
-              color: '#D4622C'
+              color: '#FF9B85'
             }}
           >
             Our Adventures Await
@@ -125,7 +151,8 @@ export default function DreamDestinations() {
             className="text-5xl md:text-7xl font-bold mb-4"
             style={{ 
               fontFamily: "'Playfair Display', serif",
-              color: '#E85D04'
+              color: '#FF9B85',
+              textShadow: '0 0 40px rgba(232, 93, 4, 0.4)'
             }}
           >
             {dreamDestinations.title}
@@ -136,11 +163,90 @@ export default function DreamDestinations() {
             <path 
               d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6" 
               fill="none" 
-              stroke="#E85D04" 
+              stroke="#FF9B85" 
               strokeWidth="2"
               strokeLinecap="round"
             />
           </svg>
+        </motion.div>
+
+        {/* Search Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-md mx-auto mb-12 relative"
+        >
+          <div 
+            className="relative"
+            style={{
+              background: 'rgba(44, 24, 16, 0.9)',
+              borderRadius: '50px',
+              border: '2px solid rgba(232, 93, 4, 0.4)',
+              boxShadow: '0 4px 20px rgba(232, 93, 4, 0.2)'
+            }}
+          >
+            <Search 
+              className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5" 
+              style={{ color: '#FF9B85' }} 
+            />
+            <input
+              type="text"
+              placeholder="Search destinations..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full py-4 pl-14 pr-5 bg-transparent outline-none text-base placeholder:text-orange-200/50"
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                color: '#FFD6BA'
+              }}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-orange-900/30 transition-colors"
+              >
+                <X className="w-4 h-4" style={{ color: '#FF9B85' }} />
+              </button>
+            )}
+          </div>
+          
+          {/* Search Results Dropdown */}
+          <AnimatePresence>
+            {searchQuery && filteredPlaces.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute z-30 mt-2 w-full rounded-2xl overflow-hidden"
+                style={{
+                  background: 'rgba(44, 24, 16, 0.98)',
+                  border: '2px solid rgba(232, 93, 4, 0.3)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                {filteredPlaces.map((place, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSearchSelect(index)}
+                    className="w-full px-5 py-3 flex items-center gap-3 hover:bg-orange-900/30 transition-colors text-left"
+                  >
+                    <span className="text-2xl">{place.emoji}</span>
+                    <div>
+                      <p className="font-semibold" style={{ color: '#FFD6BA' }}>{place.place}</p>
+                      <p className="text-sm" style={{ color: '#FF9B85' }}>{place.reason}</p>
+                    </div>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          {searchQuery && filteredPlaces.length === 0 && (
+            <p className="text-center mt-4 text-sm" style={{ color: '#FF9B85' }}>
+              No destinations found. Try another search!
+            </p>
+          )}
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -154,32 +260,32 @@ export default function DreamDestinations() {
             {/* Navigation arrows */}
             <button
               onClick={goToPrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-20 p-2 rounded-full transition-all"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-20 p-2 rounded-full transition-all hover:scale-110"
               style={{
-                background: 'rgba(255, 251, 245, 0.9)',
-                border: '2px solid rgba(232, 93, 4, 0.3)',
-                boxShadow: '0 4px 12px rgba(232, 93, 4, 0.15)'
+                background: 'rgba(44, 24, 16, 0.9)',
+                border: '2px solid rgba(232, 93, 4, 0.5)',
+                boxShadow: '0 4px 16px rgba(232, 93, 4, 0.3)'
               }}
             >
-              <ChevronLeft className="w-5 h-5" style={{ color: '#E85D04' }} />
+              <ChevronLeft className="w-5 h-5" style={{ color: '#FF9B85' }} />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-20 p-2 rounded-full transition-all"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-20 p-2 rounded-full transition-all hover:scale-110"
               style={{
-                background: 'rgba(255, 251, 245, 0.9)',
-                border: '2px solid rgba(232, 93, 4, 0.3)',
-                boxShadow: '0 4px 12px rgba(232, 93, 4, 0.15)'
+                background: 'rgba(44, 24, 16, 0.9)',
+                border: '2px solid rgba(232, 93, 4, 0.5)',
+                boxShadow: '0 4px 16px rgba(232, 93, 4, 0.3)'
               }}
             >
-              <ChevronRight className="w-5 h-5" style={{ color: '#E85D04' }} />
+              <ChevronRight className="w-5 h-5" style={{ color: '#FF9B85' }} />
             </button>
 
             <motion.div
               className="w-64 h-64 md:w-80 md:h-80 rounded-full relative cursor-grab active:cursor-grabbing select-none"
               style={{
                 background: 'linear-gradient(135deg, #4A90D9 0%, #2563EB 30%, #1E40AF 60%, #1E3A8A 100%)',
-                boxShadow: '0 0 60px rgba(37, 99, 235, 0.3), inset 0 0 60px rgba(0,0,0,0.3)',
+                boxShadow: '0 0 60px rgba(37, 99, 235, 0.4), 0 0 120px rgba(232, 93, 4, 0.2), inset 0 0 60px rgba(0,0,0,0.3)',
                 transformStyle: 'preserve-3d'
               }}
               animate={{
@@ -197,7 +303,7 @@ export default function DreamDestinations() {
             >
               {/* Continents (simplified) */}
               <div 
-                className="absolute inset-0 rounded-full opacity-40"
+                className="absolute inset-0 rounded-full opacity-50"
                 style={{
                   background: `
                     radial-gradient(ellipse 30% 15% at 30% 40%, #22C55E 0%, transparent 100%),
@@ -210,7 +316,7 @@ export default function DreamDestinations() {
               
               {/* Grid lines */}
               <div 
-                className="absolute inset-0 rounded-full opacity-20"
+                className="absolute inset-0 rounded-full opacity-25"
                 style={{
                   background: `
                     repeating-linear-gradient(
@@ -295,7 +401,7 @@ export default function DreamDestinations() {
             {/* Drag hint */}
             <p 
               className="text-center text-sm mt-4 font-medium"
-              style={{ color: '#8C7A6B' }}
+              style={{ color: 'rgba(255, 214, 186, 0.7)' }}
             >
               Drag to explore • Click pins to select
             </p>
@@ -309,19 +415,20 @@ export default function DreamDestinations() {
                 initial={{ opacity: 0, x: 50 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="p-4 rounded-xl cursor-pointer transition-all duration-300"
+                className="p-4 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                 style={{
                   background: selectedPlace === index
-                    ? 'linear-gradient(135deg, rgba(232,93,4,0.15), rgba(255,155,133,0.1))'
-                    : 'rgba(255, 251, 245, 0.9)',
+                    ? 'linear-gradient(135deg, rgba(232,93,4,0.25), rgba(255,155,133,0.15))'
+                    : 'rgba(44, 24, 16, 0.9)',
                   border: selectedPlace === index
-                    ? '2px solid rgba(232, 93, 4, 0.4)'
-                    : '2px solid rgba(255, 214, 186, 0.5)',
+                    ? '2px solid rgba(232, 93, 4, 0.6)'
+                    : '2px solid rgba(232, 93, 4, 0.2)',
                   boxShadow: selectedPlace === index
-                    ? '0 8px 24px rgba(232, 93, 4, 0.15)'
-                    : '0 4px 12px rgba(232, 93, 4, 0.08)'
+                    ? '0 8px 24px rgba(232, 93, 4, 0.25)'
+                    : '0 4px 12px rgba(0, 0, 0, 0.2)'
                 }}
                 onClick={() => {
+                  setAutoRotate(false)
                   setSelectedPlace(index)
                   setGlobeRotation(getRotationForIndex(index))
                 }}
@@ -333,14 +440,14 @@ export default function DreamDestinations() {
                       className="font-semibold"
                       style={{ 
                         fontFamily: "'Outfit', sans-serif",
-                        color: '#3A3229'
+                        color: '#FFD6BA'
                       }}
                     >
                       {place.place}
                     </h4>
                     <p 
                       className="text-sm"
-                      style={{ color: selectedPlace === index ? '#E85D04' : '#8C7A6B' }}
+                      style={{ color: selectedPlace === index ? '#FF9B85' : 'rgba(255, 155, 133, 0.7)' }}
                     >
                       {place.reason}
                     </p>
@@ -371,7 +478,7 @@ export default function DreamDestinations() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-8 lg:hidden"
             style={{
-              background: 'rgba(58, 50, 41, 0.9)',
+              background: 'rgba(26, 15, 10, 0.95)',
               backdropFilter: 'blur(20px)'
             }}
             onClick={() => setSelectedPlace(null)}
@@ -382,17 +489,18 @@ export default function DreamDestinations() {
               exit={{ scale: 0.8 }}
               className="max-w-md w-full relative rounded-3xl overflow-hidden text-center p-8"
               style={{
-                background: 'linear-gradient(135deg, #FFF8F0, #FFE5D9)',
-                boxShadow: '0 20px 60px rgba(232, 93, 4, 0.3)'
+                background: 'linear-gradient(135deg, #3D2318, #2C1810)',
+                border: '2px solid rgba(232, 93, 4, 0.4)',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(232, 93, 4, 0.2)'
               }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelectedPlace(null)}
                 className="absolute top-4 right-4 p-2 rounded-full"
-                style={{ background: 'rgba(232, 93, 4, 0.1)' }}
+                style={{ background: 'rgba(232, 93, 4, 0.2)' }}
               >
-                <X className="w-4 h-4" style={{ color: '#D4622C' }} />
+                <X className="w-4 h-4" style={{ color: '#FF9B85' }} />
               </button>
               
               <span className="text-6xl mb-4 block">{dreamDestinations.places[selectedPlace].emoji}</span>
@@ -400,12 +508,12 @@ export default function DreamDestinations() {
                 className="text-2xl font-bold mb-2"
                 style={{ 
                   fontFamily: "'Playfair Display', serif",
-                  color: '#E85D04'
+                  color: '#FF9B85'
                 }}
               >
                 {dreamDestinations.places[selectedPlace].place}
               </h3>
-              <p style={{ color: '#8C7A6B' }}>
+              <p style={{ color: 'rgba(255, 214, 186, 0.9)' }}>
                 {dreamDestinations.places[selectedPlace].reason}
               </p>
             </motion.div>
