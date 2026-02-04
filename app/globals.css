@@ -47,6 +47,19 @@
   --shadow-card: 0 8px 24px rgba(232, 93, 4, 0.12);
   --shadow-card-hover: 0 12px 36px rgba(232, 93, 4, 0.18);
   --shadow-button: 0 4px 12px rgba(232, 93, 4, 0.25);
+  
+  /* Responsive Font Sizes using clamp() */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-lg: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --font-size-3xl: clamp(1.875rem, 1.5rem + 2vw, 2.5rem);
+  --font-size-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem);
+  --font-size-5xl: clamp(3rem, 2rem + 4vw, 4rem);
+  --font-size-6xl: clamp(3.75rem, 2.5rem + 5vw, 5rem);
+  --font-size-hero: clamp(4rem, 3rem + 6vw, 7rem);
 }
 
 @theme inline {
@@ -63,7 +76,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Warm Radiant Background - Sunset Peach */
+/* Modern Mesh Gradient Background */
 .aurora-bg {
   position: fixed;
   top: 0;
@@ -72,22 +85,63 @@ body {
   bottom: 0;
   pointer-events: none;
   z-index: 0;
-  background: 
-    radial-gradient(ellipse 120% 80% at 20% 10%, rgba(232, 93, 4, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 100% 60% at 80% 90%, rgba(255, 155, 133, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 50% 50%, rgba(255, 214, 186, 0.2) 0%, transparent 60%),
-    linear-gradient(180deg, #FFE5D9 0%, #FFD6BA 30%, #FFE5D9 60%, #FFF8F0 100%);
-  animation: aurora-drift 20s ease-in-out infinite;
+  overflow: hidden;
 }
 
-@keyframes aurora-drift {
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    /* Main mesh gradient with warm tones */
+    radial-gradient(ellipse 80% 50% at 0% 0%, rgba(255, 214, 186, 0.9) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 60% at 100% 0%, rgba(255, 155, 133, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(244, 162, 97, 0.6) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 0% 100%, rgba(255, 229, 217, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(232, 93, 4, 0.08) 0%, transparent 60%),
+    linear-gradient(135deg, #FFF8F0 0%, #FFE5D9 25%, #FFD6BA 50%, #FFE5D9 75%, #FFFBF5 100%);
+  animation: mesh-float 25s ease-in-out infinite;
+}
+
+.aurora-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    /* Floating orbs */
+    radial-gradient(circle 400px at 20% 30%, rgba(232, 93, 4, 0.06) 0%, transparent 70%),
+    radial-gradient(circle 300px at 80% 70%, rgba(255, 155, 133, 0.08) 0%, transparent 70%),
+    radial-gradient(circle 250px at 60% 20%, rgba(244, 162, 97, 0.06) 0%, transparent 70%),
+    radial-gradient(circle 350px at 30% 80%, rgba(212, 98, 44, 0.05) 0%, transparent 70%);
+  animation: orbs-float 30s ease-in-out infinite reverse;
+}
+
+@keyframes mesh-float {
   0%, 100% {
+    transform: scale(1) translate(0, 0);
     opacity: 1;
-    transform: scale(1) translateY(0);
+  }
+  25% {
+    transform: scale(1.02) translate(1%, -1%);
   }
   50% {
-    opacity: 0.95;
-    transform: scale(1.01) translateY(-0.5%);
+    transform: scale(1.01) translate(-0.5%, 0.5%);
+    opacity: 0.97;
+  }
+  75% {
+    transform: scale(1.015) translate(-1%, -0.5%);
+  }
+}
+
+@keyframes orbs-float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(2%, 1%) rotate(1deg);
+  }
+  66% {
+    transform: translate(-1%, -1%) rotate(-0.5deg);
   }
 }
 
@@ -421,3 +475,31 @@ body {
 .input-field::placeholder {
   color: #8C7A6B;
 }
+
+/* Responsive Typography Classes */
+.text-responsive-xs { font-size: var(--font-size-xs); }
+.text-responsive-sm { font-size: var(--font-size-sm); }
+.text-responsive-base { font-size: var(--font-size-base); }
+.text-responsive-lg { font-size: var(--font-size-lg); }
+.text-responsive-xl { font-size: var(--font-size-xl); }
+.text-responsive-2xl { font-size: var(--font-size-2xl); }
+.text-responsive-3xl { font-size: var(--font-size-3xl); }
+.text-responsive-4xl { font-size: var(--font-size-4xl); }
+.text-responsive-5xl { font-size: var(--font-size-5xl); }
+.text-responsive-6xl { font-size: var(--font-size-6xl); }
+.text-responsive-hero { font-size: var(--font-size-hero); }
+
+/* Ensure all body text scales properly */
+body {
+  font-size: var(--font-size-base);
+}
+
+/* Optional typography classes - use these to override element styles */
+.heading-1 { font-size: var(--font-size-5xl); }
+.heading-2 { font-size: var(--font-size-4xl); }
+.heading-3 { font-size: var(--font-size-3xl); }
+.heading-4 { font-size: var(--font-size-2xl); }
+.heading-5 { font-size: var(--font-size-xl); }
+.heading-6 { font-size: var(--font-size-lg); }
+.body-paragraph { font-size: var(--font-size-base); }
+.caption { font-size: var(--font-size-sm); }
