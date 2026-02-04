@@ -14,23 +14,23 @@ export default function Hero() {
     <section 
       className="relative w-full h-screen overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 40%, #FED7AA 70%, #FDBA74 100%)'
+        background: 'linear-gradient(180deg, #0C0A09 0%, #1C1917 40%, #292524 70%, #1C1917 100%)'
       }}
     >
       {/* Subtle decorative circles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div 
-          className="absolute w-[600px] h-[600px] rounded-full opacity-30"
+          className="absolute w-[600px] h-[600px] rounded-full opacity-20"
           style={{
-            background: 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(234,88,12,0.4) 0%, transparent 70%)',
             top: '-20%',
             right: '-10%',
           }}
         />
         <div 
-          className="absolute w-[400px] h-[400px] rounded-full opacity-20"
+          className="absolute w-[400px] h-[400px] rounded-full opacity-15"
           style={{
-            background: 'radial-gradient(circle, rgba(253,186,116,0.5) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(251,146,60,0.3) 0%, transparent 70%)',
             bottom: '-10%',
             left: '-5%',
           }}
@@ -48,7 +48,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="text-lg md:text-xl tracking-[0.2em] uppercase font-light mb-8"
-          style={{ color: '#92400E' }}
+          style={{ color: '#A8A29E' }}
         >
           {heroConfig.subtitle}
         </motion.p>
@@ -64,7 +64,7 @@ export default function Hero() {
           className="text-2xl md:text-4xl font-light tracking-wide"
           style={{ 
             fontFamily: "'Great Vibes', cursive",
-            background: 'linear-gradient(135deg, #EA580C 0%, #D97706 50%, #B45309 100%)',
+            background: 'linear-gradient(135deg, #FB923C 0%, #F59E0B 50%, #FBBF24 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}
@@ -78,7 +78,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 3, duration: 1 }}
           className="text-sm md:text-base mt-6 tracking-wide"
-          style={{ color: '#B45309' }}
+          style={{ color: '#78716C' }}
         >
           {heroConfig.tagline}
         </motion.p>
@@ -119,7 +119,7 @@ export default function Hero() {
       >
         <motion.p
           className="text-xs tracking-widest uppercase mb-3"
-          style={{ color: '#92400E' }}
+          style={{ color: '#78716C' }}
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -130,11 +130,11 @@ export default function Hero() {
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="p-2 rounded-full"
           style={{ 
-            border: '1px solid rgba(180, 83, 9, 0.3)',
-            background: 'rgba(255, 255, 255, 0.5)'
+            border: '1px solid rgba(251, 146, 60, 0.3)',
+            background: 'rgba(28, 25, 23, 0.5)'
           }}
         >
-          <ChevronDown className="w-4 h-4" style={{ color: '#92400E' }} />
+          <ChevronDown className="w-4 h-4" style={{ color: '#FB923C' }} />
         </motion.div>
       </motion.div>
     </section>

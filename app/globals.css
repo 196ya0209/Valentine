@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Modern Warm Palette - Light & Aesthetic */
+  /* Modern Dark Warm Palette */
   --primary-amber: #F59E0B;
   --primary-orange: #EA580C;
   --accent-coral: #FB923C;
@@ -13,7 +13,14 @@
   --sunset-deep: #DC2626;
   --sunset-soft: #FCD34D;
   
-  /* Light Warm Tones - Creamy & Dreamy */
+  /* Dark Warm Tones */
+  --dark-900: #0C0A09;
+  --dark-800: #1C1917;
+  --dark-700: #292524;
+  --dark-600: #44403C;
+  --dark-500: #57534E;
+  
+  /* Orange accent tones */
   --warm-50: #FFFBEB;
   --warm-100: #FEF3C7;
   --warm-200: #FDE68A;
@@ -25,27 +32,20 @@
   --warm-800: #92400E;
   --warm-900: #78350F;
   
-  /* Light Theme - Warm & Inviting */
-  --light-base: #FFFBF5;
-  --light-cream: #FFF7ED;
-  --light-peach: #FFEDD5;
-  --light-apricot: #FED7AA;
-  --light-tangerine: #FDBA74;
+  /* Glass Effects - Dark Mode */
+  --glass-dark: rgba(28, 25, 23, 0.8);
+  --glass-border: rgba(251, 146, 60, 0.15);
+  --glass-glow: rgba(251, 146, 60, 0.25);
   
-  /* Glass Effects - Light Mode */
-  --glass-warm: rgba(255, 237, 213, 0.7);
-  --glass-border: rgba(251, 146, 60, 0.2);
-  --glass-glow: rgba(251, 146, 60, 0.3);
+  /* Text Colors - For Dark Background */
+  --text-primary: #FAFAF9;
+  --text-secondary: #D6D3D1;
+  --text-muted: #A8A29E;
+  --text-accent: #FB923C;
+  --text-dark: #1C1917;
   
-  /* Text Colors - For Light Background */
-  --text-primary: #78350F;
-  --text-secondary: #92400E;
-  --text-muted: #B45309;
-  --text-accent: #EA580C;
-  --text-light: #FAFAF9;
-  
-  --background: #FFF7ED;
-  --foreground: #78350F;
+  --background: #0C0A09;
+  --foreground: #FAFAF9;
   
   /* Font families */
   --font-romantic: 'Great Vibes', cursive;
@@ -67,7 +67,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Modern Aurora Background - Light & Dreamy */
+/* Modern Aurora Background - Dark & Aesthetic */
 .aurora-bg {
   position: fixed;
   top: 0;
@@ -77,10 +77,10 @@ body {
   pointer-events: none;
   z-index: 0;
   background: 
-    radial-gradient(ellipse 100% 80% at 30% 20%, rgba(254, 215, 170, 0.6) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 70% 80%, rgba(253, 186, 116, 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(251, 191, 36, 0.3) 0%, transparent 60%),
-    linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 30%, #FED7AA 70%, #FDBA74 100%);
+    radial-gradient(ellipse 100% 80% at 30% 20%, rgba(234, 88, 12, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 70% 80%, rgba(251, 146, 60, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #0C0A09 0%, #1C1917 30%, #292524 70%, #1C1917 100%);
   animation: aurora-drift 15s ease-in-out infinite;
 }
 
@@ -95,19 +95,19 @@ body {
   }
 }
 
-/* Glass Morphism Effects - Light Mode */
+/* Glass Morphism Effects - Dark Mode */
 .glass {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(28, 25, 23, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(251, 146, 60, 0.15);
+  border: 1px solid rgba(251, 146, 60, 0.1);
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(28, 25, 23, 0.9);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(251, 146, 60, 0.2);
+  border: 1px solid rgba(251, 146, 60, 0.15);
 }
 
 /* Noise Texture Overlay */
